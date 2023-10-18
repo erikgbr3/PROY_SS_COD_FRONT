@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Navigation from './components/navigation';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Leagues</Text>
-      <StatusBar style="auto" />
+      <Navigation/>
     </View>
   );
 }

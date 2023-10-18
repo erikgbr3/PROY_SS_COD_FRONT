@@ -40,7 +40,7 @@ const MatchesScreenView = () => {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <Text style={styles.topTitle}>Nombre Liga</Text>
+        <Text style={styles.topTitle}>Liga Regional Tlaloc</Text>
       </View>
       <Text style={styles.title}>Partidos</Text>
       <ScrollView>

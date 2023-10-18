@@ -1,10 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { LeaguesProvider, useLeaguesState } from "../providers/leaguesProvider"
 import LeaguesCard from "./components/leaguesCard";
-import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useEffect } from "react";
+import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FC, useEffect } from "react";
 
-const LeaguesScreenView = () => {
+type Props = {
+  navigation: any,
+}
+
+const LeaguesScreenView:FC<Props> = ({navigation}) => {
   const {
     leagues,
     getLeagues,
@@ -21,26 +25,32 @@ const LeaguesScreenView = () => {
     getLeagues();
   }, [])
 
+  const viewMatches = () => {
+    navigation.navigate('Leagues');
+  }
+
   return (
     <SafeAreaView style={[styles.container]}>
       <View style={styles.header}>
         <Text style={styles.title}>Encuentra tu liga Favorita</Text>
       </View>
       <ScrollView>
-        {renderCards()}
+        <TouchableOpacity onPress={viewMatches}>
+           {renderCards()}
+        </TouchableOpacity>
       </ScrollView>
       <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
 
-const leaguesScreen = (props: any) => (
+const LeaguesScreen = (props: any) => (
   <LeaguesProvider>
     <LeaguesScreenView {...props} />
   </LeaguesProvider>
 )
 
-export default leaguesScreen;
+export default LeaguesScreen;
 
 const styles = StyleSheet.create({
   container: {
