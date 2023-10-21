@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import ClubsScreen from './features/clubs/application/screens/clubsScreen';
+import Navigation from './components/navigation';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Clubes</Text>
-      <StatusBar style="auto" />
+      <Navigation/>
     </View>
   );
 }

@@ -1,7 +1,7 @@
 import MatchResult from "../entities/matchResult";
 
-abstract class MatchesDatasource {
+abstract class MatchesRepository {
     abstract getMatches() : Promise<MatchResult>;
 }
 
-export default MatchesDatasource;
+export default MatchesRepository;
