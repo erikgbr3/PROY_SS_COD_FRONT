@@ -1,7 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LeaguesScreen from "../features/leagues/application/screens/leaguesScreen";
-import MatchesScreen from "../features/matches/application/screens/matchesScreen";
+import { AntDesign } from '@expo/vector-icons';
+import { StyleSheet, Text, View } from 'react-native';
+import LeaguesScreen from '../features/leagues/application/screens/leaguesScreen';
+import MatchesScreen from '../features/matches/application/screens/matchesScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SportFieldsScreen from '../features/sportfields/application/screens/sporFieldsScreens';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,8 +19,8 @@ function StackNavigation() {
         name="Matches"
         component={MatchesScreen}
       />
-    </Stack.Navigator>
-  )
+    </Tab.Navigator>
+  );
 }
 
 export default function Navigation () {
