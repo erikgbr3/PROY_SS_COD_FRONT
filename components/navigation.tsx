@@ -6,42 +6,27 @@ import MatchesScreen from '../features/matches/application/screens/matchesScreen
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SportFieldsScreen from '../features/sportfields/application/screens/sporFieldsScreens';
 
-const Tab = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
-function Nav() {
+function StackNavigation() {
   return (
-    <Tab.Navigator
-    >
-        <Tab.Screen
-        name="Clubs"
-        component={LeaguesScreen}
-        />
-        <Tab.Screen
+    <Stack.Navigator>
+      <Stack.Screen
         name="Leagues"
+        component={LeaguesScreen}
+      />
+      <Stack.Screen 
+        name="Matches"
         component={MatchesScreen}
-        />
-        <Tab.Screen
-        name="SportFields"
-        component={SportFieldsScreen}
-        />
+      />
     </Tab.Navigator>
   );
 }
 
-export default function Navigation() {
-    return (
+export default function Navigation () {
+  return(
     <NavigationContainer>
-      <Nav/>
+      <StackNavigation />
     </NavigationContainer>
-    )
+  )
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
