@@ -5,7 +5,7 @@ import ClubsResult from "../../domain/entities/clubsResult";
 class ClubsDatasourceImp extends ClubsDatasource {
     async getClubs(): Promise<ClubsResult> {
 
-        return fetch('http://192.168.0.110:3000/api/clubs')
+        return fetch('http://192.168.0.107:3000/api/clubs')
         .then((response) => response.json())
         .then((response) => {
 

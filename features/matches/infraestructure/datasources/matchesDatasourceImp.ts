@@ -5,7 +5,7 @@ import MatchResult from "../../domain/entities/matchResult";
 class MatchesDatasourceImp extends MatchesDatasource {
     async getMatches(): Promise<MatchResult> {
         
-        return fetch('http://192.168.43.107:3000/api/matches')
+        return fetch('http://192.168.0.107:3000/api/matches')
         .then((response) => response.json())
         .then((response) => {
 
