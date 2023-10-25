@@ -1,3 +1,4 @@
+import BackendConfig from "../../../../config/backend/config";
 import ClubsDatasource from "../../domain/datasources/clubsDatasource";
 import Club from "../../domain/entities/club";
 import ClubsResult from "../../domain/entities/clubsResult";
@@ -5,7 +6,7 @@ import ClubsResult from "../../domain/entities/clubsResult";
 class ClubsDatasourceImp extends ClubsDatasource {
     async getClubs(): Promise<ClubsResult> {
 
-        return fetch('http://192.168.0.110:3000/api/clubs')
+        return fetch(`${BackendConfig.url}/api/clubs`)
         .then((response) => response.json())
         .then((response) => {
 

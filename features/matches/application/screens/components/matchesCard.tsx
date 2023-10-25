@@ -13,15 +13,30 @@ export default function MatchesCard(props: CardProps) {
             <View style={styles.date}>
                 <Text style={styles.dateText}>{props.match.date}</Text>
             </View>
-                <View style={styles.card}>
-                <Text style={styles.nameClub}>{props.match.homeTeamId}</Text>
-                <Text style={styles.score}>Puntuación: 
-                    <Text style={styles.scoreText}>{props.match.scoreHome}</Text>
-                </Text>
-                <Text style={styles.nameClub}>{props.match.visitorTeamId}</Text>
-                <Text style={styles.score}>Puntuación: 
-                    <Text style={styles.scoreText}>{props.match.scoreVisitor}</Text>
-                </Text>
+            <View style={styles.card}>
+                <View style={styles.cardData}>
+                    <View style={styles.data}>
+                        <Text style={styles.nameClub}>{props.match.homeTeamName}</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.score}>Puntuación: 
+                            <Text style={styles.scoreText}>{props.match.scoreHome}</Text>
+                        </Text>
+                    </View>
+                </View>
+                
+                <View style={styles.cardData}>
+                    <View>
+                        <Text style={styles.nameClub}>{props.match.visitorTeamName}</Text>
+                    </View>
+                    
+                    <View>
+                        <Text style={styles.score}>Puntuación: 
+                            <Text style={styles.scoreText}>{props.match.scoreVisitor}</Text>
+                        </Text>
+                    </View>
+                </View>
+                
                 <Text style={styles.referee}>{props.match.refereeId}</Text>
             </View>
         </View>
@@ -43,7 +58,20 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         alignItems: 'center',
         shadowColor: 'grey',
-        flexDirection: 'row'
+        flexDirection: 'column'
+    },
+    cardData:{
+        backgroundColor: '#607D8B',
+        alignContent: 'center',
+        alignItems: 'center',
+        shadowColor: 'grey',
+        flexDirection: 'column'
+    },
+    data:{
+        backgroundColor: '#607D8B',
+        alignContent: 'center',
+        alignItems: 'center',
+        shadowColor: 'grey',
     },
     nameClub: {
         marginTop: 5,
