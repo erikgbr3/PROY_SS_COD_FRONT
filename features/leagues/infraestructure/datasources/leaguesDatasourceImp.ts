@@ -4,7 +4,7 @@ import LeaguesResult from "../../domain/entities/leaguesResult";
 
 class leaguesDatasourceImp extends leaguesDatasource{
   async getLeagues(): Promise<LeaguesResult> {
-    return fetch('http://192.168.43.107:3000/api/leagues')
+    return fetch('http://192.168.0.107:3000/api/leagues')
     .then((response) => response.json())
     .then((response) => {
       const leagues = response.map((item:any) =>new League(
