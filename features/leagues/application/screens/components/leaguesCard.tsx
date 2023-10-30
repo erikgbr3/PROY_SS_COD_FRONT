@@ -6,6 +6,7 @@ type cardProps = {
 }
 
 export default function LeaguesCard(props: cardProps){
+  console.log(props)
   return(
     <View style={styles.tarjeta}>
       <Image source={require('../../../../../assets/ligamx.jpg')} style={styles.imagen} />

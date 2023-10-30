@@ -5,6 +5,7 @@ import MatchesDatasourceImp from '../../infraestructure/datasources/matchesDatas
 import { useEffect, useState } from 'react';
 import { MatchesProvider, useMatchesState } from '../providers/matchesProvider';
 import MatchesCard from './components/matchesCard';
+import Navigation from '../../../../components/navigation';
 
 const MatchesScreenView = () => {
 

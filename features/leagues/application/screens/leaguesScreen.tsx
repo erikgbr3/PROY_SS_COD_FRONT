@@ -18,7 +18,7 @@ const LeaguesScreenView:FC<Props> = ({navigation}) => {
     if (leagues == null) {
       return null;
     }
-    return leagues?.map((league) => <LeaguesCard key={league.id} league={league} />)
+    return leagues?.map((league) => <LeaguesCard key={league.id} league={league}/>)
   }
 
   useEffect(() => {
@@ -26,15 +26,22 @@ const LeaguesScreenView:FC<Props> = ({navigation}) => {
   }, [])
 
   const viewMatches = () => {
-    navigation.navigate('Leagues');
+    navigation.navigate('Partidos');
+  }
+
+  const addLeagues = () => {
+    navigation.navigate('Agregar Liga');
   }
 
   return (
     <SafeAreaView style={[styles.container]}>
       <View style={styles.header}>
+        <TouchableOpacity onPress={addLeagues}>
+          <Text style={{}}>Agregar</Text>
+        </TouchableOpacity>
         <Text style={styles.title}>Encuentra tu liga Favorita</Text>
       </View>
-      <ScrollView>
+      <ScrollView style={{marginTop: -20}}>
         <TouchableOpacity onPress={viewMatches}>
            {renderCards()}
         </TouchableOpacity>
