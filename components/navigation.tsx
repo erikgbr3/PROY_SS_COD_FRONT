@@ -7,9 +7,11 @@ import MatchesScreen from '../features/matches/application/screens/matchesScreen
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SportFieldsScreen from '../features/sportfields/application/screens/sporFieldsScreens';
 
+
 const Stack = createNativeStackNavigator();
 
 function StackNavigation() {
+
   return (
 
     <Stack.Navigator>
@@ -21,14 +23,14 @@ function StackNavigation() {
         name="Matches"
         component={MatchesScreen}
       />
-    </Tab.Navigator>
+    </Stack.Navigator>
   );
 }
 
-export default function Navigation () {
+export default function Navigation() {
   return(
     <NavigationContainer>
-      <StackNavigation />
+      <StackNavigation/>
     </NavigationContainer>
   )
 }

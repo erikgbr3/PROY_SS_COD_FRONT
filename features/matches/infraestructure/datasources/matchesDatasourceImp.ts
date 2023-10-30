@@ -23,6 +23,7 @@ class MatchesDatasourceImp extends MatchesDatasource {
         });
     }
     async addMatches(match: Match): Promise<AddMatchResult> {
+      console.log(match);
 
       return fetch(`${BackendConfig.url}/api/matches`, {
         method: "POST", // or 'PUT'
@@ -33,8 +34,12 @@ class MatchesDatasourceImp extends MatchesDatasource {
       })
       .then((response) => response.json())
         .then((response) => {
-          console.log(response);
-          return match;
+          console.log(response); 
+          const result = new AddMatchResult(response.message, response.match || null);
+          result.errors = response.errors || null;
+          result.error = response.error || false;
+
+          return result;
         });
 
     }
@@ -46,16 +51,16 @@ class MatchesDatasourceImp extends MatchesDatasource {
           .then((response) => response.json())
           .then((response) => {
               const matches = response.map((item: any) => new Match(
-                  item.id,
                   item.homeTeamId,
-                  item.scoreHome,
                   item.visitorTeamId,
-                  item.scoreVisitor,
                   item.date,
                   item.hour,
                   item.refereeId,
                   item.homeTeamName = item.homeTeamId && clubsMap.get(item.homeTeamId)?.name, 
-                  item.visitorTeamName= item.visitorTeamId && clubsMap.get(item.visitorTeamId)?.name 
+                  item.visitorTeamName= item.visitorTeamId && clubsMap.get(item.visitorTeamId)?.name,
+                  item.id,
+                  item.scoreHome,
+                  item.scoreVisitor,
               ));
 
               return new MatchResult(matches);
