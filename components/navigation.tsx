@@ -1,32 +1,28 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
-import { StyleSheet, Text, View } from 'react-native';
-import LeaguesScreen from '../features/leagues/application/screens/leaguesScreen';
-import MatchesScreen from '../features/matches/application/screens/matchesScreen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SportFieldsScreen from '../features/sportfields/application/screens/sporFieldsScreens';
+import LeaguesScreen from "../features/leagues/application/screens/leaguesScreen";
+import MatchesScreen from "../features/matches/application/screens/matchesScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function StackNavigation() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Leagues"
-        component={LeaguesScreen}
+  return(
+    <Tab.Navigator>
+      <Tab.Screen
+      name="Leagues"
+      component={LeaguesScreen}
       />
-      <Stack.Screen 
-        name="Matches"
-        component={MatchesScreen}
-      />
+      <Tab.Screen
+      name="Matches"
+      component={MatchesScreen}/>
     </Tab.Navigator>
   );
 }
 
-export default function Navigation () {
+export default function NavigationStack() {
   return(
     <NavigationContainer>
-      <StackNavigation />
+      <StackNavigation/>
     </NavigationContainer>
   )
 }

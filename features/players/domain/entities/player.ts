@@ -1,5 +1,5 @@
 class Player {
-  id: number;
+  id?: number;
   name: string;
   lastname: string;
   age: string;
@@ -9,9 +9,7 @@ class Player {
   curp: string;
   clubId: number;
 
-
   constructor(
-      id: number,
       name:string,
       lastname: string,
       age: string,
@@ -20,6 +18,7 @@ class Player {
       cellphone: string,
       curp: string,
       clubId: number,
+      id?: number,
       ){
           this.id = id;
           this.name = name; 

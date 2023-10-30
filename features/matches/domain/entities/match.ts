@@ -24,6 +24,7 @@ class Match {
         id?: number,
         scoreHome?: number,
         scoreVisitor?: number,
+        club?: Club,
     ) {
         this.id = id;
         this.homeTeamId = homeTeamId;
@@ -35,6 +36,7 @@ class Match {
         this.refereeId = refereeId;
         this.homeTeamName = homeTeamName; 
         this.visitorTeamName = visitorTeamName; 
+        this.club = club;
     }
 }
 

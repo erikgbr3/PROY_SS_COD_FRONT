@@ -1,9 +1,12 @@
-import { useEffect } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FC, useEffect } from 'react';
+import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PlayersProvider, usePlayersState } from '../providers/playersProvider';
 import PlayersCard from './components/playersCard';
 
-const PlayersScreenView = () => {
+type Props = {
+  navigation: any;
+}
+const PlayersScreenView:FC<Props> = ({navigation}) => {
 
   const {
     players,
@@ -26,14 +29,27 @@ const PlayersScreenView = () => {
     getPlayers();
   }, []);
 
+  const newPlayer = () => {
+    navigation.navigate('New Player');
+  }
+
     return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
         <View style={styles.nav}>
             <Text style={styles.text}>Jugadores</Text>
         </View>
-        
-      {renderCards()}
-    </ScrollView>
+        <View>
+          <TouchableOpacity
+          style={styles.button}
+          onPress={newPlayer}>
+            <Text style={styles.buttonText}>Nuevo Jugador</Text>
+            </TouchableOpacity>
+        </View>
+        <ScrollView style={styles.card}>
+          {renderCards()}
+        </ScrollView>
+      
+    </View>
   );
 }
 
@@ -53,7 +69,24 @@ const styles = StyleSheet.create({
   },
   nav:{
     backgroundColor: '#003c8f',
-    height:90
+    height:90,
+  },
+  button: {
+    borderRadius: 9,
+    marginTop: 5,
+    width: 150,
+    backgroundColor: 'blue',
+    marginBottom: 5,
+    position: 'absolute',
+    left: '60%'
+  },
+  buttonText: {
+    fontSize: 20,
+    color: '#fff',
+    textAlign: 'center'
+  },
+  card: {
+    marginTop: 35
   },
   text:{
     marginTop: 40,
