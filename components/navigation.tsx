@@ -5,47 +5,30 @@ import LeaguesScreen from '../features/leagues/application/screens/leaguesScreen
 import addLeaguesScreen from '../features/leagues/application/screens/addLeaguesScreen';
 import MatchesScreen from '../features/matches/application/screens/matchesScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AuthScreen from '../features/auth/application/screens/authScreen';
+import SportFieldsScreen from '../features/sportfields/application/screens/sporFieldsScreens';
 
-const Tab = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
-function Nav() {
+function StackNavigation() {
   return (
-    <Tab.Navigator
-      initialRouteName='Ligas'
-    >
-      <Tab.Screen
-        name="Agregar Liga"
-        component={addLeaguesScreen}
-        options={{headerShown: false}}
-      />
-      <Tab.Screen
-        name="Ligas"
+
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Leagues"
         component={LeaguesScreen}
-        options={{headerShown: false}}
       />
-      <Tab.Screen
-        name="Partidos"
+      <Stack.Screen 
+        name="Matches"
         component={MatchesScreen}
-      />  
+      />
     </Tab.Navigator>
   );
 }
 
-export default function Navigation() {
-    return (
+export default function Navigation () {
+  return(
     <NavigationContainer>
-      <Nav/>
+      <StackNavigation />
     </NavigationContainer>
-    )
+  )
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -8,7 +8,7 @@ interface ContextDefinition {
     loading: boolean,
     matches: Match[],
 
-    getMatches: () => void;
+    getMatches: () => void,
 }
 
 const MatchesContext = createContext({} as ContextDefinition);

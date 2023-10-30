@@ -1,3 +1,4 @@
+import BackendConfig from "../../../../config/backend/config";
 import leaguesDatasource from "../../domain/datasources/leaguesDatasource";
 import AddLeaguesResult from "../../domain/entities/addLeagueResult";
 import League from "../../domain/entities/league";
@@ -5,7 +6,7 @@ import LeaguesResult from "../../domain/entities/leaguesResult";
 
 class leaguesDatasourceImp extends leaguesDatasource{
   async getLeagues(): Promise<LeaguesResult> {
-    return fetch('http://192.168.1.74:3000/api/leagues')
+    return fetch(`${BackendConfig.url}/api/leagues`)
     .then((response) => response.json())
     .then((response) => {
       const leagues = response.map((item:any) =>new League(

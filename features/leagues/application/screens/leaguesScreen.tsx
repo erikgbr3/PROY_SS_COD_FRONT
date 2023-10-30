@@ -3,6 +3,7 @@ import { LeaguesProvider, useLeaguesState } from "../providers/leaguesProvider"
 import LeaguesCard from "./components/leaguesCard";
 import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FC, useEffect } from "react";
+import { useNavigation } from '@react-navigation/native'
 
 type Props = {
   navigation: any,
@@ -30,7 +31,7 @@ const LeaguesScreenView:FC<Props> = ({navigation}) => {
   }
 
   const addLeagues = () => {
-    navigation.navigate('Agregar Liga');
+    navigation.navigate('Matches');
   }
 
   return (

@@ -1,24 +1,29 @@
-class Match {
-    id: number;
-    homeTeamId: number;
-    scoreHome: number;
-    visitorTeamId: number;
-    scoreVisitor: number;
-    date: string;
-    refereeId: number;
-    homeTeamName: string; 
-    visitorTeamName: string;
+import Club from "../../../clubs/domain/entities/club";
 
-    constructor (
-        id: number,
+class Match {
+    id?: number;
+    homeTeamId: number;
+    scoreHome?: number;
+    visitorTeamId: number;
+    scoreVisitor?: number;
+    date: string;
+    hour: string;
+    refereeId: number;
+    homeTeamName?: string; 
+    visitorTeamName?: string;
+    club?:Club;
+
+    constructor (  
         homeTeamId: number,
-        scoreHome: number,
         visitorTeamId: number,
-        scoreVisitor: number,
         date: string,
+        hour: string,
         refereeId: number,
-        homeTeamName: string,
-        visitorTeamName: string,
+        homeTeamName?: string,
+        visitorTeamName?: string,
+        id?: number,
+        scoreHome?: number,
+        scoreVisitor?: number,
     ) {
         this.id = id;
         this.homeTeamId = homeTeamId;
@@ -26,6 +31,7 @@ class Match {
         this.visitorTeamId = visitorTeamId;
         this.scoreVisitor = scoreVisitor;
         this.date = date;
+        this.hour = hour;
         this.refereeId = refereeId;
         this.homeTeamName = homeTeamName; 
         this.visitorTeamName = visitorTeamName; 
