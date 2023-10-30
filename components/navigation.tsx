@@ -19,7 +19,7 @@ function StackNavigation() {
   );
 }
 
-export default function NavigationStack() {
+export default function Navigation() {
   return(
     <NavigationContainer>
       <StackNavigation/>

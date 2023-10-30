@@ -1,13 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import AddPlayerScreen from './features/players/application/screens/AddPlayersScreen';
-import PlayersScreen from './features/players/application/screens/playersScreen';
-import NavigationStack from './components/navigation';
+import Navigation from './components/navigation';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <AddPlayerScreen/>
+      <Navigation/>
     </View>
   );
 }
