@@ -1,11 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Navigation from './components/navigation';
-import AddMatchScreen from './features/matches/application/screens/addMatchScreen';
-import MatchesScreen from './features/matches/application/screens/matchesScreen';
-import { ClubsProvider } from './features/clubs/application/providers/clubsProvider';
-import PlayersScreen from './features/players/application/screens/playersScreen';
-import LeaguesScreen from './features/leagues/application/screens/leaguesScreen';
+import AuthScreen from './features/auth/application/screens/authScreen';
 
 export default function App() {
   return (
