@@ -1,20 +1,22 @@
 class League{
-  id: number;
+  id?: number;
   name: string;
-  cost: number;
+  cost: string;
   prize: string;
   init: string;
   description: string;
   ownerId: number;
+  
   //owner?: User; para llamar los datos del propietario
   constructor(
-    id: number,
+    
     name: string,
-    cost: number,
+    cost: string,
     prize: string,
     init: string,
     description: string,
     ownerId: number,
+    id?: number,
   ){
     this.id = id;
     this.name = name;
