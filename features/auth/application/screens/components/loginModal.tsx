@@ -1,14 +1,37 @@
 import {StyleSheet, Text, TextInput, View, Platform, TouchableOpacity, Alert, Image } from "react-native"
-import React from "react";
+import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import backendConfig from "../../../../../config/backend/config";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
+import { FontAwesome } from '@expo/vector-icons';
+
 
 export default function LoginModal(){
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const navigation = useNavigation(); 
+    const [showPassword, setShowPassword] = useState(false);
 
-    const handleLogin = () =>{
-    }
+    const handleLogin = async () => {
+      try {
+        console.log(`${backendConfig.url}/api/auth`);
+        
+        const response = await axios.post(`${backendConfig.url}/api/auth`, {
 
-    const mainScreen = () =>{
+          email: username,
+          password: password,
+        });
+  
+        if (response.status === 200) {
+          // Almacenar el token o la sesión en AsyncStorage
+        
+        } else {
+          Alert.alert('Error', 'Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
 
     return (
@@ -24,10 +47,13 @@ export default function LoginModal(){
         <TextInput
           style={styles.input}
           placeholder="Contraseña"
-          secureTextEntry
+          secureTextEntry={!showPassword}          
           onChangeText={(text) => setPassword(text)}
           value={password}
         />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={{position: "absolute", right: 50, top: 130}}>
+          <FontAwesome name={showPassword ? 'eye-slash' : 'eye'} size={24} color="#1B6BC1" />
+        </TouchableOpacity>
         <TouchableOpacity style={styles.login} onPress={handleLogin}>
             <Text style={styles.loginText}>Iniciar Sesión</Text>
         </TouchableOpacity>
@@ -35,12 +61,14 @@ export default function LoginModal(){
           <Text style={styles.moreOptionsText}>O Inicia Sesión Como Invitado</Text>
         </View> 
         <View style={styles.socialMedia}>
-          <TouchableOpacity style={styles.invitado} onPress={mainScreen}>
+          <TouchableOpacity style={styles.invitado} onPress={()=>{navigation.navigate('Main')}}>
               <Text style={styles.invitadoText}>Modo Invitado</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.footer}>
-          <Text style={styles.text}>¿No tienes una cuenta?<Text style={styles.enlace}> Registrate Aquí</Text></Text>
+          <Text style={styles.text}>¿No tienes una cuenta?
+            <Text style={styles.enlace} onPress={() => {navigation.navigate('sign up')}}> Registrate Aquí</Text>
+          </Text>
         </View>
       </View>
     );
