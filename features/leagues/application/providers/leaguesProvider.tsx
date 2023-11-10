@@ -7,23 +7,28 @@ import leaguesDatasourceImp from "../../infraestructure/datasources/leaguesDatas
 interface ContextDefinition{
   loading: boolean,
   leagues: League[],
+  leagueSelected: League | null,
   getLeagues:() => void;
+  setLeagueSelected: (league: League | null) => void;
 }
 
 const LeaguesContext = createContext({} as ContextDefinition);
 
 interface LeaguesState{
   loading:boolean,
+  leagueSelected: League | null,
   leagues: League[]
 }
 
 type LeaguesActionType = 
 {type: 'set Loading', payload: boolean}
 |{type: 'set Data', payload: LeaguesResult}
+|{type: 'set league selected', payload: League | null};
 
 const initialState : LeaguesState = {
   loading:false,
-  leagues: []
+  leagues: [],
+  leagueSelected: null,
 }
 
 function LeaguesReducer(state: LeaguesState, action: LeaguesActionType){
@@ -36,6 +41,11 @@ function LeaguesReducer(state: LeaguesState, action: LeaguesActionType){
         leagues: action.payload.leagues,
         loading: false,
       }
+    case 'set league selected':
+      return {
+        ...state,
+        leagueSelected: action.payload
+       }
     default: 
       return state
   }
@@ -66,10 +76,18 @@ const LeaguesProvider:FC<Props> = ({children}) => {
     });
   }
 
+  function setLeagueSelected (league: League | null){
+    dispatch({
+      type: 'set league selected',
+      payload: league
+    });
+  }
+
   return(
     <LeaguesContext.Provider value={{
       ...state,
       getLeagues,
+      setLeagueSelected,
     }}>
       {children}
     </LeaguesContext.Provider>

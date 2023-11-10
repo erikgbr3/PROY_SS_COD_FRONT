@@ -12,7 +12,9 @@ type Props = {
 const LeaguesScreenView:FC<Props> = ({navigation}) => {
   const {
     leagues,
+    leagueSelected,
     getLeagues,
+    setLeagueSelected,
   } = useLeaguesState();
 
   const renderCards = () => {
@@ -31,7 +33,7 @@ const LeaguesScreenView:FC<Props> = ({navigation}) => {
   }
 
   const addLeagues = () => {
-    navigation.navigate('Matches');
+    navigation.navigate('agregarLiga');
   }
 
   return (

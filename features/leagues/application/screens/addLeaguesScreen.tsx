@@ -18,8 +18,6 @@ const AddLeaguesScreenView = () => {
     
   } = useAddLeaguesState();
 
-  console.log(`esto recibe ${message}`)
-
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
