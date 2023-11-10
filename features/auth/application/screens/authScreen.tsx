@@ -1,16 +1,18 @@
 import {Button, StyleSheet, Text, TextInput, View } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import React from "react";
+import { useNavigation } from '@react-navigation/native';
 import LoginModal from "./components/loginModal";
 
 
 export default function AuthScreen(){
+  const navigation = useNavigation();
     return (
         <View style={styles.container}>
         <View style={styles.circulo}></View>
         <Text style={styles.title}>Bienvenido a Fútbol Red</Text>
         <Text style={styles.subtitle}>Inicia sesión y accede a tu cuenta </Text>
-        <LoginModal/>
+        <LoginModal navigation={navigation}/>
       </View>
     );
   };

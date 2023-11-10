@@ -1,11 +1,16 @@
 import {StyleSheet, Text, TextInput, View, Platform, TouchableOpacity, Alert, Image } from "react-native"
-import React from "react";
+import React, { FC } from "react";
 
-export default function LoginModal(){
+type Props = {
+  navigation: any,
+}
+
+const LoginModal:FC<Props> = ({navigation}) => {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
 
     const handleLogin = () =>{
+      navigation.navigate('Main');
     }
 
     const mainScreen = () =>{
@@ -45,6 +50,8 @@ export default function LoginModal(){
       </View>
     );
   };
+
+  export default LoginModal;
   
   const styles = StyleSheet.create({
     container: {

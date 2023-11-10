@@ -9,10 +9,12 @@ type Props = {
 const PlayersScreenView:FC<Props> = ({navigation}) => {
 
   const {
+    loading,
     players,
+    playerSelected,
 
-    getPlayers
-
+    getPlayers,
+    setPlayerSelected,
   } = usePlayersState();
  
 

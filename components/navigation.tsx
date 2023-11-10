@@ -6,31 +6,29 @@ import addLeaguesScreen from '../features/leagues/application/screens/addLeagues
 import MatchesScreen from '../features/matches/application/screens/matchesScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SportFieldsScreen from '../features/sportfields/application/screens/sporFieldsScreens';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-function StackNavigation() {
+export default function NavigationTabs() {
 
   return (
 
-    <Stack.Navigator>
-      <Stack.Screen
+    <Tab.Navigator
+    initialRouteName='Leagues'
+    screenOptions={{
+      headerShown: false
+    }}
+    >
+      <Tab.Screen
         name="Leagues"
         component={LeaguesScreen}
       />
-      <Stack.Screen 
+      <Tab.Screen 
         name="Matches"
         component={MatchesScreen}
       />
-    </Stack.Navigator>
+    </Tab.Navigator>
   );
-}
-
-export default function Navigation() {
-  return(
-    <NavigationContainer>
-      <StackNavigation/>
-    </NavigationContainer>
-  )
 }

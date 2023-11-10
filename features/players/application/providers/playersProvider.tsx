@@ -5,10 +5,12 @@ import PlayersRepositoryImp from "../../infraestructure/repositories/playersRepo
 import PlayersDatasourceImp from "../../infraestructure/datasources/playersDataSourceImp";
 
 interface ContextDefinition {
-    loading: boolean,
-    players: Player[],
+    loading: boolean;
+    players: Player[];
+    playerSelected: Player | null;
 
-    getPlayers: () => void,
+    getPlayers: () => void;
+    setPlayerSelected: (player: Player | null) => void;
 }
 
 const PlayersContext = createContext({} as ContextDefinition);
@@ -16,15 +18,19 @@ const PlayersContext = createContext({} as ContextDefinition);
 interface PlayersState {
     loading: boolean,
     players: Player[],
+    playerSelected: Player | null,
 }
 
 type PlayersActionType = 
 { type: 'Set Loading', payload: boolean } 
-| { type: 'Set Data', payload: PlayerResult };
+| { type: 'Set Data', payload: PlayerResult }
+| { type: 'Set Player Selected', payload: Player | null }
+;
 
 const InitialState : PlayersState = {
     loading: false,
     players: [],
+    playerSelected: null,
 }
 
 function PlayersReducer(
@@ -39,6 +45,12 @@ function PlayersReducer(
                     ...state,
                     players: action.payload.players,
                     loading: false,
+                }
+
+            case "Set Player Selected":
+                return {
+                    ...state,
+                    playerSelected: action.payload,
                 }
         
             default:
@@ -71,11 +83,19 @@ const PlayersProvider : FC<Props> = ({children}) => {
         });
     }
 
+    function setPlayerSelected (player: Player | null) {
+        dispatch({
+            type: 'Set Player Selected',
+            payload: player,
+        })
+    }
+
     return(
         <PlayersContext.Provider value={{
             ...state,
 
             getPlayers,
+            setPlayerSelected,
         }}>
             {children}
         </PlayersContext.Provider>
