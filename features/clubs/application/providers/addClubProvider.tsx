@@ -36,7 +36,7 @@ interface ContextDefinition{
     loading: false,
     saving: false,
     message: null,
-    club: new Club('','',0,0, undefined),
+    club: new Club('','',undefined, undefined, undefined),
     errors: {},
   };
   
@@ -52,7 +52,7 @@ interface ContextDefinition{
       case 'set Club':
         return {
           ...state,
-          league: action.payload
+          club: action.payload
         };
       case 'set Message':
         return{

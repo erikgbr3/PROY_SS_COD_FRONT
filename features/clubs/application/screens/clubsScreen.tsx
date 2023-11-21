@@ -23,7 +23,7 @@ const ClubsScreenView:FC<Props> = ({navigation}) => {
     {
       return null;
     }
-    return clubs?.map((club) => (<ClubCard key={`club${club.id}`} club={club} />
+    return clubs?.map((club) => (<ClubCard key={`club${club.name}`} club={club} />
     ));
   }
 
@@ -38,10 +38,10 @@ const ClubsScreenView:FC<Props> = ({navigation}) => {
     return (
     <ScrollView style={styles.container}>
         <View style={styles.nav}>
-            <TouchableOpacity onPress={addLeagues}>
-              <Text style={styles.add}>Agregar</Text>
-            </TouchableOpacity>
             <Text style={styles.text}>Echale un vistazo</Text>
+            <TouchableOpacity style={styles.add} onPress={addLeagues}>
+              <Text style={styles.addText}>Crea un equipo</Text>
+            </TouchableOpacity>
         </View>
         
       {renderCards()}
@@ -68,8 +68,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#003c8f',
     height:90,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    flexDirection: 'row',
+
   },
   text:{
     marginTop: 40,
@@ -78,9 +80,10 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   add:{
-    width: 40,
-    backgroundColor: 'black',
+    width: 60,
+    margin: 15
+  },
+  addText:{
     color: 'white',
-    marginTop: 30,
   }
 });
