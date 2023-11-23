@@ -1,4 +1,6 @@
 import ClubsDatasource from "../../domain/datasources/clubsDatasource";
+import AddClubResult from "../../domain/entities/addClubResult";
+import Club from "../../domain/entities/club";
 import ClubsResult from "../../domain/entities/clubsResult";
 import ClubsRepository from "../../domain/repositories/clubsRepository";
 
@@ -9,6 +11,9 @@ class ClubsRepositoryImp extends ClubsRepository {
     constructor(datasource: ClubsDatasource) {
         super();
         this.datasource = datasource;
+    }
+    addClub(club: Club): Promise<AddClubResult> {
+        return this.datasource.addClub(club);
     }
 
     getClubs(): Promise<ClubsResult> {
