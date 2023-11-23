@@ -1,4 +1,6 @@
+import BackendConfig from "../../../../config/backend/config";
 import SportFieldsDatasource from "../../domain/datasources/sportFieldsDatasource";
+import AddSportFieldsResult from "../../domain/entities/addSportFieldResult";
 import SportFieldResult from "../../domain/entities/sportFieldsResult";
 import SportField from "../../domain/entities/sportfield";
 
@@ -6,7 +8,7 @@ import SportField from "../../domain/entities/sportfield";
 class SportFieldsDatasourceImp extends SportFieldsDatasource {
     async getSportFields(): Promise<SportFieldResult> {
 
-        return fetch('http://192.168.0.107:3000/api/sportFields')
+        return fetch(`${BackendConfig.url}/api/sportFields`)
         .then((response) => response.json())
         .then((response) => {
 
@@ -21,6 +23,27 @@ class SportFieldsDatasourceImp extends SportFieldsDatasource {
             )
         });
     }
+
+    async addSportField(sportField: SportField): Promise<AddSportFieldsResult> {
+        console.log(sportField);
+        return fetch(`${BackendConfig.url}/api/sportFields`, {
+          method: 'POST',
+          body: JSON.stringify(sportField),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => response.json())
+        .then((response) =>{
+          console.log('Result', response);      
+          const result = new AddSportFieldsResult(response.message, response.sportField || null);
+          result.errors = response.errors || null;
+          result.error = response.error || null;
+    
+          return result;
+        })
+        
+      }
 }
 
 export default SportFieldsDatasourceImp;
