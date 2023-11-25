@@ -1,3 +1,4 @@
+import React from "react";
 import {View, Text, StyleSheet, Image} from "react-native";
 import Player from "../../../domain/entities/player";
 import { FC } from "react";
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         height: '100%',
-        alignContent: 'center',
+        alignContent: 'center', 
         alignItems: 'center',
     },
     card: {
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
       borderStyle: 'solid',
       borderWidth:.5,
       borderColor:'black',
-      width:'75%',
+      width: 380,
       height:'auto',
       overflow: "hidden",
       margin: 5,

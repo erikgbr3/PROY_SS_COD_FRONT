@@ -1,3 +1,4 @@
+import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import SportFieldCard from './components/sportFieldCard';
 import { useSportFieldsState, SportFieldsProvider } from '../providers/sportFieldsProvider';

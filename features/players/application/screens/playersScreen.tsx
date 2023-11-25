@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC, useEffect } from 'react';
 import { Button, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PlayersProvider, usePlayersState } from '../providers/playersProvider';
@@ -32,7 +33,7 @@ const PlayersScreenView:FC<Props> = ({navigation}) => {
   }, []);
 
   const newPlayer = () => {
-    navigation.navigate('New Player');
+    navigation.navigate('agregarJugador');
   }
 
     return (
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     marginTop: 35
   },
   text:{
-    marginTop: 40,
+    marginTop: 40, 
     marginLeft: 16,
     fontSize: 26,
     color: 'white'

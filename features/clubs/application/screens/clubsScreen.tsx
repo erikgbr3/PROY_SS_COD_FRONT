@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import ClubCard from './components/clubCard';

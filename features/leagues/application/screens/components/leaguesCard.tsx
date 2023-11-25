@@ -2,7 +2,8 @@ import League from "../../../domain/entities/league"
 import { View, Text, Image, StyleSheet } from 'react-native';
 
 type cardProps = {
-  league: League
+  league: League,
+  onEdit?: Function
 }
 
 export default function LeaguesCard(props: cardProps){

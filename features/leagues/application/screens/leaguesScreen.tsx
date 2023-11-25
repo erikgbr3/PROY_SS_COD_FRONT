@@ -1,3 +1,4 @@
+import React from 'react';
 import { StatusBar } from "expo-status-bar";
 import { LeaguesProvider, useLeaguesState } from "../providers/leaguesProvider"
 import LeaguesCard from "./components/leaguesCard";
@@ -13,7 +14,9 @@ type Props = {
 const LeaguesScreenView:FC<Props> = ({navigation}) => {
   const {
     leagues,
+    leagueSelected,
     getLeagues,
+    setLeagueSelected,
   } = useLeaguesState();
 
   const renderCards = () => {
@@ -32,7 +35,7 @@ const LeaguesScreenView:FC<Props> = ({navigation}) => {
   }
 
   const addLeagues = () => {
-    navigation.navigate('Matches');
+    navigation.navigate('agregarLiga');
   }
 
   return (

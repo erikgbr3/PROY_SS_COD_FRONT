@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { StyleSheet, Text, View } from 'react-native';
