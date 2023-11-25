@@ -6,13 +6,12 @@ import { StatusBar } from "expo-status-bar";
 
 
 export default function AuthScreen() {
-  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.circulo}></View>
       <Text style={styles.title}>Bienvenido a Fútbol Red</Text>
       <Text style={styles.subtitle}>Inicia sesión y accede a tu cuenta </Text>
-      <LoginModal navigation={navigation} />
+      <LoginModal />
       <StatusBar />
     </View>
   );

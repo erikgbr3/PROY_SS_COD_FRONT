@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
-import { StyleSheet, Text, View, Alert, PermissionsAndroid } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import AuthScreen from './features/auth/application/screens/authScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import NavigationTabs from './components/navigationTabs';
 import AddUsersScreen from './features/users/application/screens/addUsersScreen';
+import React from 'react';
 
 const Stack = createNativeStackNavigator(); 
 

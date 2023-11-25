@@ -1,10 +1,19 @@
+<<<<<<< HEAD
 import {StyleSheet, Text, TextInput, View, Platform, TouchableOpacity, Alert, Image } from "react-native";
 import React, { useState, FC  } from "react";
+=======
+import {StyleSheet, Text, TextInput, View, Platform, TouchableOpacity, Alert, Image } from "react-native"
+import React, { useState } from "react";
+>>>>>>> b89eea5aca6fbbf81db17ae86ea8fcc081b64dbe
 import { useNavigation } from "@react-navigation/native";
 import backendConfig from "../../../../../config/backend/config";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import { FontAwesome } from '@expo/vector-icons';
+<<<<<<< HEAD
+=======
+
+>>>>>>> b89eea5aca6fbbf81db17ae86ea8fcc081b64dbe
 
 
 type Props = {
@@ -14,7 +23,11 @@ type Props = {
 const LoginModal:FC<Props> = ({navigation}) => {
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
+<<<<<<< HEAD
     //const navigation = useNavigation(); 
+=======
+    const navigation = useNavigation(); 
+>>>>>>> b89eea5aca6fbbf81db17ae86ea8fcc081b64dbe
     const [showPassword, setShowPassword] = useState(false);
 
     const handleLogin = async () => {
