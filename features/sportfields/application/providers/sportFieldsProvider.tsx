@@ -1,5 +1,5 @@
 //manejo de estado para personajes
-
+import React from 'react';
 import { FC, ReactNode, createContext, useReducer, useContext} from "react";
 import SportField from "../../domain/entities/sportfield";
 import SportFieldResult from "../../domain/entities/sportFieldsResult";

@@ -1,3 +1,4 @@
+import React from "react";
 import { FC, ReactNode, createContext, useContext, useReducer, useState } from "react";
 import Player from "../../domain/entities/player";
 import PlayersRepositoryImp from "../../infraestructure/repositories/playersRepositoryImp";

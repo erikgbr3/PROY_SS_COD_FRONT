@@ -1,5 +1,6 @@
 import { Button, StyleSheet, Text, TextInput, View } from "react-native"
 import React from "react";
+import { useNavigation } from '@react-navigation/native';
 import LoginModal from "./components/loginModal";
 import { StatusBar } from "expo-status-bar";
 

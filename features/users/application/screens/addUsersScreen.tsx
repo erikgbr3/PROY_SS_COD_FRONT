@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text,  StyleSheet, View, Platform, StatusBar,} from "react-native";
 import { AddUsersProvider } from "../providers/addUsersProvider"
 import { SafeAreaView } from "react-native";

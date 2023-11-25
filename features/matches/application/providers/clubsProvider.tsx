@@ -1,5 +1,5 @@
 //manejo de estado para personajes
-
+import React from 'react';
 import { FC, ReactNode, createContext, useReducer, useContext, useEffect} from "react";
 import Club from "../../domain/entities/club";
 import ClubsResult from "../../domain/entities/clubsResult";

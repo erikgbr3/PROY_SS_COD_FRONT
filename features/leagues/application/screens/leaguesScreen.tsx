@@ -1,9 +1,11 @@
+import React from 'react';
 import { StatusBar } from "expo-status-bar";
 import { LeaguesProvider, useLeaguesState } from "../providers/leaguesProvider"
 import LeaguesCard from "./components/leaguesCard";
 import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FC, useEffect } from "react";
 import { useNavigation } from '@react-navigation/native'
+import AddLeaguesScreen from "./addLeaguesScreen";
 
 type Props = {
   navigation: any,
@@ -29,7 +31,7 @@ const LeaguesScreenView:FC<Props> = ({navigation}) => {
   }, [])
 
   const viewMatches = () => {
-    navigation.navigate('Partidos');
+    navigation.navigate('Matches');
   }
 
   const addLeagues = () => {
