@@ -1,35 +1,44 @@
+import React from "react";
 import {View, Text, StyleSheet, Image} from "react-native";
 import Player from "../../../domain/entities/player";
+import { FC } from "react";
 
 type CardProps = {
     player: Player,
+    onEdit?: Function,
 }
 
-export default function PlayersCard(props: CardProps) {
+const PlayersCard:FC<CardProps> = ({
+    player,
+    onEdit
+
+}) => {
 
 
     return (
         <View style={styles.container}>
             <View style={styles.card}>
-                <Text style={styles.text}>{props.player.name}</Text>
-                <Text style={styles.text}>{props.player.lastname}</Text>
-                <Text style={styles.text}>{props.player.age}</Text>
-                <Text style={styles.text}>{props.player.numberjersey}</Text>
-                <Text style={styles.text}>{props.player.position}</Text>
-                <Text style={styles.text}>{props.player.cellphone}</Text>
-                <Text style={styles.text}>{props.player.curp}</Text>
-                <Text style={styles.text}>{props.player.clubId}</Text>
+                <Text style={styles.text}>{player.name}</Text>
+                <Text style={styles.text}>{player.lastname}</Text>
+                <Text style={styles.text}>{player.age}</Text>
+                <Text style={styles.text}>{player.numberjersey}</Text>
+                <Text style={styles.text}>{player.position}</Text>
+                <Text style={styles.text}>{player.cellphone}</Text>
+                <Text style={styles.text}>{player.curp}</Text>
+                <Text style={styles.text}>{player.clubId}</Text>
             </View>
         </View>
     );
 }
+
+export default PlayersCard;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
         height: '100%',
-        alignContent: 'center',
+        alignContent: 'center', 
         alignItems: 'center',
     },
     card: {
@@ -39,7 +48,7 @@ const styles = StyleSheet.create({
       borderStyle: 'solid',
       borderWidth:.5,
       borderColor:'black',
-      width:'75%',
+      width: 380,
       height:'auto',
       overflow: "hidden",
       margin: 5,

@@ -1,9 +1,9 @@
 import { StyleSheet, Text, TextInput, View, Platform, TouchableOpacity, Alert, Image } from "react-native"
 import React, { useEffect, useState } from "react";
+
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from '@expo/vector-icons';
 import { useAuthState } from "../../providers/authProvider";
-
 
 export default function LoginModal() {
   const navigation = useNavigation();

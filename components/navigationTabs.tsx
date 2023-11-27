@@ -5,6 +5,8 @@ import SportFieldsScreen from '../features/sportfields/application/screens/sporF
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AddLeaguesScreen from '../features/leagues/application/screens/addLeaguesScreen';
 import NavigationUser from './navigationUser';
+import ClubsScreen from '../features/clubs/application/screens/clubsScreen';
+import AddClubScreen from '../features/clubs/application/screens/addClubScreen';
 
 
 const Tab = createNativeStackNavigator();

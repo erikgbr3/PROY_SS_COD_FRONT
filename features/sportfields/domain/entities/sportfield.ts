@@ -1,12 +1,12 @@
 class SportField{
-    id: number;
     ubication: string
     name: string;
+    id?: number;
 
     constructor(
-        id: number,
         ubication: string,
         name: string,
+        id?: number,
     ){
         this.id = id;
         this.ubication = ubication;

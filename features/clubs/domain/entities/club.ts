@@ -1,16 +1,16 @@
 class Club {
-    id: number;
+    id?: number;
     name: string;
     locality: string;
-    fieldId: number;
-    ownerTeamId: number;
+    fieldId?: number;
+    ownerTeamId?: number;
 
     constructor(
-        id: number,
         name:string, 
         locality: string,
-        fieldId: number,
-        ownerTeamId: number,
+        fieldId?: number,
+        ownerTeamId?: number,
+        id?: number,
         ){
             this.id = id;
             this.name = name;

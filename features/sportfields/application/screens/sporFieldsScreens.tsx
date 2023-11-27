@@ -1,3 +1,4 @@
+import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import SportFieldCard from './components/sportFieldCard';
 import { useSportFieldsState, SportFieldsProvider } from '../providers/sportFieldsProvider';
@@ -38,11 +39,18 @@ const SportFieldsScreenView:FC<Props> = ({navigation}) => {
     getSportFields();
   }, []);
 
+  const addSportField = () =>{
+    navigation.navigate("agregarCampo")
+  }
+
 
     return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Encuentra tu liga Favorita</Text>
+        <Text style={styles.title}>Campos Desportivos</Text>
+        <TouchableOpacity onPress={addSportField}>
+          <Text style={{}}>Agrega un nuevo campo</Text>
+        </TouchableOpacity>
       </View>
       <ScrollView style={styles.container}>
           {/* <View style={styles.nav}>

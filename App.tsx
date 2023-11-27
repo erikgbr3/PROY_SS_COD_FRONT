@@ -1,16 +1,18 @@
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import AuthScreen from './features/auth/application/screens/authScreen';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+
+import AuthScreen from './features/auth/application/screens/authScreen';
 import NavigationTabs from './components/navigationTabs';
 import AddUsersScreen from './features/users/application/screens/addUsersScreen';
 import AddLeaguesScreen from './features/leagues/application/screens/addLeaguesScreen';
 import NavigationAdmin from './components/navigationAdmin';
 import { AuthProvider } from './features/auth/application/providers/authProvider';
 
-
 const Stack = createNativeStackNavigator();
 export default function App() {
+
   return (
     //Englobar con el estado de autenticación
     <AuthProvider>

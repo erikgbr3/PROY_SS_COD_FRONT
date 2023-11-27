@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC, ReactNode, createContext, useContext, useReducer } from "react";
 import User from "../../domain/entities/user";
 import usersRepositoryImp from "../../infraestructure/repositories/usersRepositoryImp";
