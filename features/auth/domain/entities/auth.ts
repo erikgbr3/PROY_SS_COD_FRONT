@@ -10,3 +10,5 @@ class Auth{
     this.password = password
   }
 }
+
+export default Auth;

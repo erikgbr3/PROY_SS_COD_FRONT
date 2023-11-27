@@ -3,9 +3,10 @@ import React from "react";
 import { useNavigation } from '@react-navigation/native';
 import LoginModal from "./components/loginModal";
 import { StatusBar } from "expo-status-bar";
+import { AuthProvider } from "../providers/authProvider";
 
 
-export default function AuthScreen() {
+const  AuthScreenView = () => {
   return (
     <View style={styles.container}>
       <View style={styles.circulo}></View>
@@ -16,6 +17,10 @@ export default function AuthScreen() {
     </View>
   );
 };
+
+const AuthScreen = (props: any) => (
+    <AuthScreenView {...props}/>
+)
 
 const styles = StyleSheet.create({
   container: {
@@ -45,3 +50,6 @@ const styles = StyleSheet.create({
     right: -100
   }
 });
+
+export default AuthScreen;
+

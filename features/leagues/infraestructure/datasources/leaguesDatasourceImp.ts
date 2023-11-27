@@ -1,4 +1,6 @@
-import backendConfig from "../../../../config/backend/config";
+import BackendConfig from "../../../../config/backend/config";
+import { useAuthState } from "../../../auth/application/providers/authProvider";
+import LoginUserResult from "../../../auth/domain/entities/loginUserResult";
 import leaguesDatasource from "../../domain/datasources/leaguesDatasource";
 import AddLeaguesResult from "../../domain/entities/addLeagueResult";
 import League from "../../domain/entities/league";
@@ -6,7 +8,7 @@ import LeaguesResult from "../../domain/entities/leaguesResult";
 
 class leaguesDatasourceImp extends leaguesDatasource{
   async getLeagues(): Promise<LeaguesResult> {
-    return fetch(`${backendConfig.url}/api/leagues`)
+    return fetch(`${BackendConfig.url}/api/leagues`)
     .then((response) => response.json())
     .then((response) => {
       const leagues = response.map((item:any) =>new League(
@@ -22,10 +24,34 @@ class leaguesDatasourceImp extends leaguesDatasource{
         leagues
       )
     })
-  } 
+  }
+  async getLeaguesAdmin(token: string): Promise<LeaguesResult> {
+    return fetch(`${BackendConfig.url}/api/leagues`,{
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token
+      }
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      const leagues = response.map((item:any) =>new League(
+        item.name,
+        item.cost,
+        item.prize,
+        item.init, 
+        item.description, 
+        item.ownerId,
+        item.id,
+      ))
+      return new LeaguesResult(
+        leagues
+      )
+    })
+  }
+
   async addLeague(league: League): Promise<AddLeaguesResult> {
     console.log(league);
-    return fetch(`${backendConfig.url}/api/leagues`, {
+    return fetch(`${BackendConfig.url}/api/leagues`, {
       method: 'POST',
       body: JSON.stringify(league),
       headers: {

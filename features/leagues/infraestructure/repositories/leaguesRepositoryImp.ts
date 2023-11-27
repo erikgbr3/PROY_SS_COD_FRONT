@@ -1,3 +1,4 @@
+import LoginUserResult from "../../../auth/domain/entities/loginUserResult";
 import leaguesDatasource from "../../domain/datasources/leaguesDatasource";
 import AddLeaguesResult from "../../domain/entities/addLeagueResult";
 import League from "../../domain/entities/league";
@@ -14,6 +15,10 @@ class leaguesRepositoryImp extends leaguesRepository{
 
   getLeagues():Promise<LeaguesResult>{
     return this.datasource.getLeagues();
+  }
+
+  getLeaguesAdmin(token: string): Promise<LeaguesResult> {
+      return this.datasource.getLeaguesAdmin(token);
   }
 
   addLeague(league: League): Promise<AddLeaguesResult> {
