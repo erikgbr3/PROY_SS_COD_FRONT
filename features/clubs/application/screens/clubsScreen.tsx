@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-import React from 'react';
-import { useEffect } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-=======
 import { useEffect, FC } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
->>>>>>> b89eea5aca6fbbf81db17ae86ea8fcc081b64dbe
 import ClubCard from './components/clubCard';
 import { ClubsProvider, useClubsState } from '../providers/clubsProvider';
 

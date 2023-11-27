@@ -15,12 +15,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "infoPlist": {
-        "NSLocalNetworkUsageDescription": "La aplicacion requiere acceso a la conexion de datos e internet para poder funcionar. ",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "La aplicacion usara la localizacion para proporcionar infromacion mas acertada, de acuerdo a tu ubicación.",
-        "NSPhotoLibraryUsageDescription": "La aplicaion requiere acceso a la biblioteca de fotos para seleccionar una foto de perfil."
-      }
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
@@ -28,22 +23,12 @@
         "backgroundColor": "#154e8f"
       },
       "package": "com.alexis08.PROY_SS_COD_FRONT"
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "permissions": [
-        "android.permission.INTERNET",
-        "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.READ_MEDIA_IMAGES"
-      ],
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "eas": {
-        "projectId": "a55a2e1e-3723-4758-9d20-ac5e271bb9da"
-      }
+      
     }
   }
 }
