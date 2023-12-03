@@ -8,8 +8,11 @@ import MatchesDatasourceImp from "../../infraestructure/datasources/matchesDatas
 interface ContextDefinition {
     loading: boolean,
     matches: Match[],
+    matchSelected: Match | null,
 
     getMatches: () => void,
+    setMatchSelected: (match: Match | null) => void,
+    onUpdatedMatch: (match: Match) => void,
 }
 
 const MatchesContext = createContext({} as ContextDefinition);
@@ -17,15 +20,19 @@ const MatchesContext = createContext({} as ContextDefinition);
 interface MatchesState {
     loading: boolean,
     matches: Match[],
+    matchSelected: Match | null,
 }
 
 type MatchesActionType = 
 { type: 'Set Loading', payload: boolean } 
-| { type: 'Set Data', payload: MatchResult };
+| { type: 'Set Data', payload: MatchResult }
+| { type: 'Set Match Selected', payload: Match | null}
+;
 
 const InitialState : MatchesState = {
     loading: false,
     matches: [],
+    matchSelected: null,
 }
 
 function matchesReducer(
@@ -40,6 +47,12 @@ function matchesReducer(
                     ...state,
                     matches: action.payload.matches,
                     loading: false,
+                };
+
+            case 'Set Match Selected':
+                return {
+                    ...state,
+                    matchSelected: action.payload,
                 }
         
             default:
@@ -72,11 +85,37 @@ const MatchesProvider : FC<Props> = ({children}) => {
         });
     }
 
+    function setMatchSelected (match: Match | null) {
+        console.log(match);
+        
+        dispatch({
+            type: 'Set Match Selected',
+            payload: match,
+        });
+    }
+
+    function onUpdatedMatch(match: Match) {
+        const matchesClone = [...state.matches];
+        const index = matchesClone.findIndex((item) => item.id == match.id);
+        matchesClone.splice(index, 1, match);
+
+        dispatch({
+            type: 'Set Data',
+            payload: {
+                matches: matchesClone,
+            }
+        });
+
+        setMatchSelected(null);
+    }
+
     return(
         <MatchesContext.Provider value={{
             ...state,
 
             getMatches,
+            setMatchSelected,
+            onUpdatedMatch
         }}>
             {children}
         </MatchesContext.Provider>

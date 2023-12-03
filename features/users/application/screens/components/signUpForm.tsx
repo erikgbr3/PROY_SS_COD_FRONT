@@ -59,6 +59,7 @@ export default function SignUpForm() {
         <FontAwesome name={showPassword ? 'eye-slash' : 'eye'} size={24} color="#1B6BC1" />
       </TouchableOpacity>
       <Text>Elige que deseas hacer en Fútbol Red</Text>
+
       <SelectDropdown
         data={roles}
         buttonStyle={{ width: '100%', borderRadius: 20, marginTop: 10 }}
@@ -79,6 +80,7 @@ export default function SignUpForm() {
           return item.rol
         }}
       />
+
       <TouchableOpacity style={styles.login} onPress={() => { saveUser() }}>
         <Text style={styles.loginText}>Registrarme</Text>
       </TouchableOpacity>

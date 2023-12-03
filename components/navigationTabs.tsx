@@ -1,3 +1,4 @@
+import React from 'react';
 import LeaguesScreen from '../features/leagues/application/screens/leaguesScreen';
 import MatchesScreen from '../features/matches/application/screens/matchesScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -14,7 +15,7 @@ const Tab = createNativeStackNavigator();
 export default function NavigationTabs() {
   return (
     <Tab.Navigator initialRouteName='Ligas'>
-      <Tab.Screen name='Ligas' component={LeaguesScreen} options={{
+      <Tab.Screen name='Ligas' component={MatchesScreen} options={{
         headerShown: false,
       }} />
       <Tab.Screen name='Info Liga'  component={NavigationUser} options={{

@@ -18,8 +18,8 @@ class MatchesRepositoryImp extends MatchesRepository {
         return this.datasource.getClubs();
     }
     
-    addMatches(match: Match): Promise<AddMatchResult> {
-        return this.datasource.addMatches(match);
+    addMatch(match: Match): Promise<AddMatchResult> {
+        return this.datasource.addMatch(match);
     }
 
     getMatches(): Promise<MatchResult> {

@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { AddLeaguesProvider, useAddLeaguesState } from "../providers/addLeaguesProvider"
 import LeaguesAdminCard from "./components/leaguesAdminCard";
 import { Alert, Modal, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
 import { useNavigation } from "@react-navigation/native";

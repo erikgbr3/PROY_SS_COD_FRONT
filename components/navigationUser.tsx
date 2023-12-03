@@ -1,3 +1,4 @@
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AddLeaguesScreen from '../features/leagues/application/screens/addLeaguesScreen';
 import MatchesScreen from '../features/matches/application/screens/matchesScreen';
