@@ -9,6 +9,7 @@ import AddUsersScreen from './features/users/application/screens/addUsersScreen'
 import AddLeaguesScreen from './features/leagues/application/screens/addLeaguesScreen';
 import NavigationAdmin from './components/navigationAdmin';
 import { AuthProvider } from './features/auth/application/providers/authProvider';
+import NavigationClubManager from './components/navigationClubManager';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
           <Stack.Screen name='Main' component={NavigationTabs} />
           <Stack.Screen name='sign up' component={AddUsersScreen} />
           <Stack.Screen name='Home Admin' component={NavigationAdmin} />
+          <Stack.Screen name='Home Club Manager' component={NavigationClubManager}/>
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>

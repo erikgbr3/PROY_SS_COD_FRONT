@@ -1,33 +1,32 @@
+import React from 'react';
 import League from "../../../domain/entities/league"
 import { View, Text, Image, StyleSheet } from 'react-native';
 
 type cardProps = {
   league: League,
-  onEdit?: Function
 }
 
-export default function LeaguesCard(props: cardProps){
-  console.log(props)
+const LeaguesCard: React.FC<cardProps> = ({league}) => {
   return(
     <View style={styles.tarjeta}>
       <Image source={require('../../../../../assets/ligamx.jpg')} style={styles.imagen} />
-      <Text style={styles.nombre}>{props.league.name}</Text>
+      <Text style={styles.nombre}>{league.name}</Text>
       <View style={{paddingLeft: 20, width: '100%', paddingBottom: 20}}>
         <View style={styles.column}>
           <Text style={{color: '#0d47a1', fontWeight: '500', fontSize:16}}>Costo de Inscripción: </Text>
-          <Text style={styles.equipo}>{props.league.cost}</Text>
+          <Text style={styles.equipo}>${league.cost}</Text>
         </View>
         <View style={styles.column}>
           <Text style={{color: '#0d47a1', fontWeight: '500', fontSize:16}}>Premiación: </Text>
-          <Text style={styles.equipo}>{props.league.prize}</Text>
+          <Text style={styles.equipo}>{league.prize}</Text>
         </View>
         <View style={styles.column}>
           <Text style={{color: '#0d47a1', fontWeight: '500', fontSize:16}}>Fecha de Inicio: </Text>
-          <Text style={styles.equipo}>{props.league.init}</Text>
+          <Text style={styles.equipo}>{league.init}</Text>
         </View>
         <View style={styles.column}>
           <Text style={{color: '#0d47a1', fontWeight: '500', fontSize:16}}>Detalles: </Text>
-          <Text style={styles.equipo}>{props.league.description}</Text>
+          <Text style={styles.equipo}>{league.description}</Text>
         </View>
       </View>
     </View> 
@@ -71,3 +70,5 @@ const styles = StyleSheet.create({
     marginBottom: 2
   }
 });
+
+export default LeaguesCard;

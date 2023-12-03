@@ -1,11 +1,8 @@
-import { FC, ReactNode, createContext, useContext, useReducer } from "react";
+import React,{ FC, ReactNode, createContext, useContext, useReducer } from "react";
 import Auth from "../../domain/entities/auth";
 import AuthRepositoryImp from "../../infraestructure/repositories/authRepositoryImp";
 import AuthDatasourceImp from "../../infraestructure/datasources/authDatasourceImp";
 import User from "../../../users/domain/entities/user";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// ... (importaciones)
 
 interface ContextDefinition {
   success: boolean,
@@ -18,6 +15,7 @@ interface ContextDefinition {
   setAuthProp: (property: string, value: any) => void,
   signIn: () => Promise<void>,
   signOut: () => void,
+  resetForm: () => void
 }
 
 const AuthContext = createContext({} as ContextDefinition);
@@ -114,9 +112,6 @@ const AuthProvider: FC<Props> = ({ children }) => {
     try {
       const repository = new AuthRepositoryImp(new AuthDatasourceImp());
       const result = await repository.login(state.auth);
-
-      console.log("result", result);
-
       if (result.token) {
         dispatch({
           type: 'set Token', payload: result.token
@@ -181,6 +176,12 @@ const AuthProvider: FC<Props> = ({ children }) => {
     // También puedes limpiar localStorage aquí si es necesario
   };
 
+  const resetForm = () => {
+    dispatch({
+      type: 'set Auth',
+      payload: initialState.auth
+    })
+  }
   return (
     <AuthContext.Provider
       value={{
@@ -188,6 +189,7 @@ const AuthProvider: FC<Props> = ({ children }) => {
         setAuthProp,
         signIn,
         signOut,
+        resetForm
       }}
     >
       {children}
