@@ -1,12 +1,15 @@
+import React from 'react';
 import { StyleSheet, Text, TextInput, View, Platform, TouchableOpacity, Alert, Image } from "react-native"
-import React, { useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from '@expo/vector-icons';
 import { useAuthState } from "../../providers/authProvider";
 
-export default function LoginModal() {
-  const navigation = useNavigation();
+type Props = {
+  navigation: any
+}
+
+const LoginModal: React.FC<Props> = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const {
     auth,
@@ -15,12 +18,11 @@ export default function LoginModal() {
     success,
     setAuthProp,
     signIn,
+    resetForm,
     message,
     errors,
     error
   } = useAuthState();
-
-  console.log("este es el usuario que se recibe al hacer el login", user)
 
   const handleLogin = async () => {
     try {
@@ -33,10 +35,14 @@ export default function LoginModal() {
   useEffect(() => {
     if (success) {
       if(user.roleId == 1){
-        navigation.navigate('Home Admin' as never);
+        navigation.replace('Home Admin' as never);
+        resetForm()
       }else if(user.roleId == 2){
-        //Rol de DT
-        //navigation.navigate('Home Admin' as never);
+        navigation.replace('Home Club Manager' as never);
+        resetForm()
+      }else{
+        //navigation.navigate('Home Referi' as never);
+        //resetForm()
       }
     }
     if (error) {
@@ -91,7 +97,7 @@ export default function LoginModal() {
       </View>
       <View style={styles.footer}>
         <Text style={styles.text}>¿No tienes una cuenta?
-          <Text style={styles.enlace} onPress={() => { navigation.navigate('sign up' as never) }}> Registrate Aquí</Text>
+          <Text style={styles.enlace} onPress={() => { navigation.navigate('sign up' as never) }}> Regístrate Aquí</Text>
         </Text>
       </View>
     </View>
@@ -100,9 +106,9 @@ export default function LoginModal() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white', // Color de fondo de la vista
-    borderRadius: 40, // Bordes redondeados (opcional)
-    padding: 32, // Relleno interno (ajusta según tus necesidades)
+    backgroundColor: 'white',
+    borderRadius: 40, 
+    padding: 32, 
     height: "100%",
     width: "100%",
     ...Platform.select({
@@ -190,3 +196,5 @@ const styles = StyleSheet.create({
     fontWeight: "800"
   }
 });
+
+export default LoginModal;

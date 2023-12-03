@@ -50,7 +50,6 @@ class leaguesDatasourceImp extends leaguesDatasource{
   }
 
   async addLeague(league: League): Promise<AddLeaguesResult> {
-    console.log(league);
     return fetch(`${BackendConfig.url}/api/leagues`, {
       method: 'POST',
       body: JSON.stringify(league),
@@ -60,7 +59,6 @@ class leaguesDatasourceImp extends leaguesDatasource{
     })
     .then((response) => response.json())
     .then((response) =>{
-      console.log('Result', response);      
       const result = new AddLeaguesResult(response.message, response.league || null);
       result.errors = response.errors || null;
       result.error = response.error || null;
@@ -68,6 +66,42 @@ class leaguesDatasourceImp extends leaguesDatasource{
       return result;
     })
     
+  }
+
+  async deleteLeague(league: League): Promise<AddLeaguesResult> {
+    return fetch(`${BackendConfig.url}/api/leagues?id=${league.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': "application/json",
+      }
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      const result = new AddLeaguesResult(response.message, response.league || null);
+      result.errors = response.errors || null;
+      result.error = response.error || null;
+
+      return result;
+    })   
+  }
+
+  async editLeague(leagueId: number, league: League): Promise<AddLeaguesResult> {
+    console.log("leagueId", leagueId);
+    return fetch(`${BackendConfig.url}/api/leagues?id=${leagueId}`, {
+      method: 'PUT',
+      body: JSON.stringify(league),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => response.json())
+    .then((response) =>{
+      const result = new AddLeaguesResult(response.message, response.league || null);
+      result.errors = response.errors || null;
+      result.error = response.error || null;      
+
+      return result;
+    })
   }
   
 }

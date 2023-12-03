@@ -6,6 +6,8 @@ import React, { FC, useEffect, useState } from "react";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
 import { useNavigation } from "@react-navigation/native";
+import LeagueEditScreen from "./components/modalEditLeague";
+import LeagueDeleteScreen from "./components/modalDeleteLeague";
 
 const AddLeaguesScreenView = () => {
 
@@ -13,24 +15,31 @@ const AddLeaguesScreenView = () => {
     loading,
     league,
     leagues,
-    saving,
-    setLeagueProp,
-    saveLeague,
-    getLeagues,
     message,
     success,
     errors,
+    saving,
+    leagueSelected,
+    leagueSelectedDeleted,
+    setLeagueSelectedDeleted,
+    onDeleteLeague,
+    onUpdatedLeague,
+    setLeagueProp,
+    setLeagueSelected,
+    saveLeague,
+    getLeagues,
   } = useAddLeaguesState();
-
-  console.log("Ligas Adm",getLeagues);
-  
 
   const renderCards = () => {
     if (leagues == null) {
       return null
     }
     return leagues?.map((leagueA) =>
-      <LeaguesAdminCard key={leagueA.id} leagueA={leagueA}/>
+      <LeaguesAdminCard
+        key={leagueA.id}
+        leagueA={leagueA} 
+        onEdit={setLeagueSelected}
+        onDelete={setLeagueSelectedDeleted}/>
     )
   }
 
@@ -194,14 +203,30 @@ const AddLeaguesScreenView = () => {
         <MaterialIcons name="add" size={26} color="white" />
       </Pressable>
       <StatusBar style="auto" />
-    </SafeAreaView>
+      {!!leagueSelected ?(
+        <LeagueEditScreen
+        leagueEdit={leagueSelected}
+        modalVisible={!!leagueSelected}
+        onSaved={onUpdatedLeague}
+        onCancelEdit={setLeagueSelected}
+      />
+      ): null}
+      {!!leagueSelectedDeleted ?(
+        <LeagueDeleteScreen
+        leagueDelete={leagueSelectedDeleted}
+        modalVisible={!!leagueSelectedDeleted}
+        onDeleted={onDeleteLeague}
+        onCancelDelete={setLeagueSelectedDeleted}
+      />
+      ): null}
+      </SafeAreaView>
   );
 }
 
 const AddLeaguesScreen = (props: any) => (
-    <AddLeaguesProvider>
-      <AddLeaguesScreenView {...props} />
-    </AddLeaguesProvider>
+  <AddLeaguesProvider>
+    <AddLeaguesScreenView {...props} />
+  </AddLeaguesProvider>
 )
 
 export default AddLeaguesScreen;

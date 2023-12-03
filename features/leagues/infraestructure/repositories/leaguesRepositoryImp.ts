@@ -24,5 +24,13 @@ class leaguesRepositoryImp extends leaguesRepository{
   addLeague(league: League): Promise<AddLeaguesResult> {
       return this.datasource.addLeague(league);
   }
+
+  deleteLeague(league: League): Promise<AddLeaguesResult> {
+      return this.datasource.deleteLeague(league);
+  }
+
+  editLeague(leagueId: number, league: League): Promise<AddLeaguesResult> {
+      return this.datasource.editLeague(leagueId, league)
+  }
 }
 export default leaguesRepositoryImp;
