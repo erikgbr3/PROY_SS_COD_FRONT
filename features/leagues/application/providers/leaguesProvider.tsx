@@ -1,4 +1,4 @@
-import { FC, ReactNode, createContext, useContext, useReducer } from "react";
+import React,{ FC, ReactNode, createContext, useContext, useReducer } from "react";
 import League from "../../domain/entities/league";
 import LeaguesResult from "../../domain/entities/leaguesResult";
 import leaguesRepositoryImp from "../../infraestructure/repositories/leaguesRepositoryImp";

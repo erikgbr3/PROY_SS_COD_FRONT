@@ -7,12 +7,13 @@ import { AuthProvider } from "../providers/authProvider";
 
 
 const  AuthScreenView = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.circulo}></View>
       <Text style={styles.title}>Bienvenido a Fútbol Red</Text>
       <Text style={styles.subtitle}>Inicia sesión y accede a tu cuenta </Text>
-      <LoginModal />
+      <LoginModal navigation={navigation}/>
       <StatusBar />
     </View>
   );
