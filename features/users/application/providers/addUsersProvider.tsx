@@ -8,7 +8,8 @@ import { Alert } from "react-native";
 interface ContextDefinition {
   loading: boolean,
   saving: boolean,
-  message: string | null,
+  success: boolean,
+  message?: string,
   user: User,
   errors: any,
   setUserProp: (property: string, value: any) => void,
@@ -20,7 +21,8 @@ const AddUsersContext = createContext({} as ContextDefinition);
 interface AddUsersState {
   loading: boolean,
   saving: boolean,
-  message: string | null,
+  success: boolean,
+  message?: string,
   user: User,
   errors: any,
 }
@@ -29,13 +31,19 @@ type AddUsersActionType =
   { type: 'set Loading', payload: boolean }
   | { type: 'set Saving', payload: boolean }
   | { type: 'set User', payload: User }
-  | { type: 'set Message', payload: string | null }
-  | { type: 'set Errors', payload: any };
+  | { type: 'set Message', payload: string | undefined }
+  | { type: 'set Errors', payload: any }
+  | {type: 'set Success', payload: {
+    success: boolean,
+    user?: User,
+    message: string
+  }};
 
 const initialState: AddUsersState = {
   loading: false,
   saving: false,
-  message: null,
+  success: false,
+  message: '',
   user: new User('', '', '', 0),
   errors: {},
 }
@@ -63,6 +71,13 @@ function AddUsersReducer(state: AddUsersState, action: AddUsersActionType) {
       return {
         ...state,
         errors: action.payload || {}
+      }
+    case 'set Success':
+      return{
+        ...state,
+        success: action.payload.success,
+        message: action.payload.message,
+        saving: false,
       }
     default:
       return state
@@ -95,6 +110,31 @@ const AddUsersProvider: FC<Props> = ({children}) => {
     });
       const result = await repository.addUser(state.user);     
       console.log("result", result);
+
+      if(result.user){
+        dispatch({
+          type: 'set Success',
+          payload: {
+            success: true,
+            message: result.message
+          }
+        })
+
+        dispatch({
+          type: 'set Message',
+          payload: result.message,
+        });
+
+        return;
+      }
+
+      dispatch({
+        type: 'set Success',
+        payload: {
+          success: false,
+          message: result.message
+        }
+      })
        
       dispatch({
         type: 'set Message',
@@ -111,20 +151,12 @@ const AddUsersProvider: FC<Props> = ({children}) => {
         payload: errors
       })
   
-      // Mostrar alerta con el mensaje del estado
-      Alert.alert('Mensaje', result.message, [
-        {
-          text: 'Cancelar',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        {text: 'Aceptar', onPress: () => console.log('OK Pressed')},
-      ]);
-    
       dispatch({
         type: 'set Saving',
         payload: false,
       });
+
+      return;
   }
 
   return (
