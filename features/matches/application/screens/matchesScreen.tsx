@@ -15,6 +15,12 @@ type Props = {
 
 const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
 
+  let leagueName = "Liga de Futbol";
+  
+  if (route.params?.leagueName) {
+    leagueName = route.params.leagueName;
+  }
+
    const {
     loading,
     matches,
@@ -68,7 +74,7 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
   return (
       <View style={styles.container}>
       <View style={styles.top}>
-        <Text style={styles.topTitle}>Liga Regional Tlaloc</Text>
+        <Text style={styles.topTitle}>{leagueName}</Text>
       </View>
       <Text style={styles.title}>Partidos</Text>
       <ScrollView>

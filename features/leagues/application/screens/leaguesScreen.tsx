@@ -21,7 +21,7 @@ const LeaguesScreenView: FC<Props> = ({ navigation }) => {
       return null;
     }
     return leagues?.map((league) =>
-      <TouchableOpacity key={league.id} onPress={() => navigation.navigate('Info Liga', {leagueId:league.id})}>
+      <TouchableOpacity key={league.id} onPress={() => navigation.navigate('Info Liga', {leagueId:league.id, leagueName: league.name })}>
         <LeaguesCard league={league}/>
       </TouchableOpacity>
     )
