@@ -30,7 +30,7 @@ class MatchesDatasourceImp extends MatchesDatasource {
       console.log(match);
 
       return fetch(`${BackendConfig.url}/api/matches`, {
-        method: !match.id? "POST" : 'PUT', // or 'PUT'
+        method: !match.id? "POST" : "PUT", // or 'PUT'
         body: JSON.stringify(match), // data can be `string` or {object}!
         headers: {
           "Content-Type": "application/json",
@@ -48,11 +48,11 @@ class MatchesDatasourceImp extends MatchesDatasource {
 
     }
 
-    async getMatches(): Promise<MatchResult> {
+    async getMatches(leagueId: number): Promise<MatchResult> {
       const clubsResult = await this.getClubs();
       const clubsMap = new Map(clubsResult.club.map((club) => [club.id, club]));
     
-      return fetch(`${BackendConfig.url}/api/matches`)
+      return fetch(`${BackendConfig.url}/api/matches?leagueId=${leagueId}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error(`Failed to fetch matches: ${response.status} ${response.statusText}`);
@@ -83,6 +83,23 @@ class MatchesDatasourceImp extends MatchesDatasource {
     
           return new MatchResult(formattedMatches);
         });
+    }
+
+    async deleteMatch(match: Match): Promise<AddMatchResult> {
+      return fetch(`${BackendConfig.url}/api/matches?matches?id=${match.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-type': "application/json",
+        }
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        const result = new AddMatchResult(response.message, response.match || null);
+        result.errors = response.errors || null;
+        result.error = response.error || null;
+
+        return result;
+      })
     }
     
     

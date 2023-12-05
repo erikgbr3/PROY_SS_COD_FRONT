@@ -9,10 +9,13 @@ interface ContextDefinition {
     loading: boolean,
     matches: Match[],
     matchSelected: Match | null,
+    matchSelectedDeleted: Match | null
 
-    getMatches: () => void,
+    getMatches: (leagueId: number) => void,
     setMatchSelected: (match: Match | null) => void,
+    setMatchselectedDeleted: (match: Match | null) => void,
     onUpdatedMatch: (match: Match) => void,
+    onDeleteMatch: (match: Match) => void,
 }
 
 const MatchesContext = createContext({} as ContextDefinition);
@@ -21,18 +24,21 @@ interface MatchesState {
     loading: boolean,
     matches: Match[],
     matchSelected: Match | null,
+    matchSelectedDeleted: Match | null,
 }
 
 type MatchesActionType = 
 { type: 'Set Loading', payload: boolean } 
 | { type: 'Set Data', payload: MatchResult }
 | { type: 'Set Match Selected', payload: Match | null}
+| { type: 'Set Match Selected Deleted', payload: Match | null}
 ;
 
 const InitialState : MatchesState = {
     loading: false,
     matches: [],
     matchSelected: null,
+    matchSelectedDeleted: null,
 }
 
 function matchesReducer(
@@ -53,6 +59,12 @@ function matchesReducer(
                 return {
                     ...state,
                     matchSelected: action.payload,
+                };
+            
+            case 'Set Match Selected Deleted':
+                return {
+                    ...state,
+                    matchSelectedDelete: action.payload
                 }
         
             default:
@@ -67,7 +79,7 @@ type Props = {
 const MatchesProvider : FC<Props> = ({children}) => {
     const [state, dispatch] = useReducer( matchesReducer, InitialState );
 
-    const getMatches = async () => {
+    const getMatches = async (leagueId: number) => {
         const repository = new MatchesRepositoryImp(
             new MatchesDatasourceImp()
         );
@@ -77,7 +89,7 @@ const MatchesProvider : FC<Props> = ({children}) => {
             payload: true,
         })
 
-        const apiResult = await repository.getMatches();
+        const apiResult = await repository.getMatches(leagueId);
 
         dispatch({
             type: 'Set Data',
@@ -94,7 +106,30 @@ const MatchesProvider : FC<Props> = ({children}) => {
         });
     }
 
+    function setMatchselectedDeleted(match: Match | null) {
+        console.log("Partido a eliminar", match);
+        dispatch({
+            type: 'Set Match Selected Deleted',
+            payload: match
+        })
+    }
+
     function onUpdatedMatch(match: Match) {
+        const matchesClone = [...state.matches];
+        const index = matchesClone.findIndex((item) => item.id == match.id);
+        matchesClone.splice(index, 1, match);
+
+        dispatch({
+            type: 'Set Data',
+            payload: {
+                matches: matchesClone,
+            }
+        });
+
+        setMatchSelected(null);
+    }
+
+    function onDeleteMatch(match: Match) {
         const matchesClone = [...state.matches];
         const index = matchesClone.findIndex((item) => item.id == match.id);
         matchesClone.splice(index, 1, match);
@@ -115,7 +150,9 @@ const MatchesProvider : FC<Props> = ({children}) => {
 
             getMatches,
             setMatchSelected,
-            onUpdatedMatch
+            setMatchselectedDeleted,
+            onUpdatedMatch,
+            onDeleteMatch
         }}>
             {children}
         </MatchesContext.Provider>

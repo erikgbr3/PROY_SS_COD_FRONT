@@ -6,9 +6,10 @@ import Match from "../../../domain/entities/match";
 type CardProps = {
     match: Match,
     onEdit?: Function,
+    onDelete?: Function
 }
 
-const MatchesCard: FC<CardProps> = ({match, onEdit}) => {
+const MatchesCard: FC<CardProps> = ({match, onEdit, onDelete}) => {
 
     const [menuVisible, setMenuVisible] = useState(false);
 
@@ -20,6 +21,13 @@ const MatchesCard: FC<CardProps> = ({match, onEdit}) => {
         setMenuVisible(!menuVisible);
         if(onEdit){
             onEdit(match);
+        }
+    }
+
+    const handleDelete = () => {
+        setMenuVisible(!menuVisible);
+        if(onDelete){
+            onDelete(match)
         }
     }
 
@@ -70,7 +78,7 @@ const MatchesCard: FC<CardProps> = ({match, onEdit}) => {
                             <TouchableOpacity onPress={handleEdit}>
                                 <Text style={[styles.modalOption, { color: '#1d99ff' }]}>Editar</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={handleDelete}>
                                 <Text style={[styles.modalOption, { color: 'red' }]}>Eliminar</Text>
                             </TouchableOpacity>
                         </View>

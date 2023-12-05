@@ -6,17 +6,26 @@ import MatchesCard from './components/matchesCard';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
 import MatchEditScreen from './components/matchEditScreen';
+import MatchDeleteScreen from './components/deleteMatch';
 
-const MatchesScreenView = () => {
+type Props = {
+  route: any,
+  navigation: any
+}
+
+const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
 
    const {
     loading,
     matches,
     matchSelected,
+    matchSelectedDeleted,
 
     getMatches,
     setMatchSelected,
-    onUpdatedMatch
+    setMatchselectedDeleted,
+    onUpdatedMatch,
+    onDeleteMatch,
    } = useMatchesState(); 
 
    const renderCards = () => {
@@ -33,14 +42,18 @@ const MatchesScreenView = () => {
       return (
         <View key={`match-${match.id}`}>
           {showDate && <Text style={styles.dateText}>{match.date}</Text>}
-          <MatchesCard key={match.id} match={match} onEdit={setMatchSelected}/>
+          <MatchesCard
+            match={match} 
+            onEdit={setMatchSelected} 
+            onDelete={setMatchselectedDeleted}
+          />
         </View>
       );
     });
   };
 
    useEffect(() => {
-    getMatches();
+    getMatches(route.params.leagueId);
    }, []);
 
    if(loading) {
@@ -63,13 +76,22 @@ const MatchesScreenView = () => {
       </ScrollView> 
 
       {!!matchSelected ? (
-        <MatchEditScreen
-        matchEdit={matchSelected}
-        menuVisible={!!matchSelected}
-        onSaved={onUpdatedMatch}
-        onCancelEdit={setMatchSelected}
-        />
-      ): null}   
+          <MatchEditScreen
+            matchEdit={matchSelected}
+            menuVisible={!!matchSelected}
+            onSaved={onUpdatedMatch}
+            onCancelEdit={setMatchSelected}
+          />
+
+      ): null}
+      {!!matchSelectedDeleted ? (
+        <MatchDeleteScreen
+        matchDelete={matchSelectedDeleted}
+        menuVisible={!!matchSelectedDeleted}
+        onDeleted={onDeleteMatch}
+        onCancelDelete={setMatchselectedDeleted}
+      />
+      ): null}
     </View>
   );
 }

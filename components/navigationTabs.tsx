@@ -15,7 +15,7 @@ const Tab = createNativeStackNavigator();
 export default function NavigationTabs() {
   return (
     <Tab.Navigator initialRouteName='Ligas'>
-      <Tab.Screen name='Ligas' component={MatchesScreen} options={{
+      <Tab.Screen name='Ligas' component={LeaguesScreen} options={{
         headerShown: false,
       }} />
       <Tab.Screen name='Info Liga'  component={NavigationUser} options={{

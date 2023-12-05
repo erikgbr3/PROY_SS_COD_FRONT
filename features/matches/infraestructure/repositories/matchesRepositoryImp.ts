@@ -22,8 +22,12 @@ class MatchesRepositoryImp extends MatchesRepository {
         return this.datasource.addMatch(match);
     }
 
-    getMatches(): Promise<MatchResult> {
-        return this.datasource.getMatches();
+    getMatches(leagueId: number): Promise<MatchResult> {
+        return this.datasource.getMatches(leagueId);
+    }
+
+    deleteMatch(match: Match): Promise<AddMatchResult> {
+        return this.datasource.deleteMatch(match);
     }
 }
 

@@ -244,9 +244,8 @@ const EditMatchProvider : FC<Props> = ({children, clubs}) => {
             errors,
           }
         });
-        
         onSaved(state.match);
-
+        
     } catch (error) {
      
       console.error('Ocurrio un error:', error);
