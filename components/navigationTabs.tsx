@@ -1,3 +1,4 @@
+import React from 'react';
 import LeaguesScreen from '../features/leagues/application/screens/leaguesScreen';
 import MatchesScreen from '../features/matches/application/screens/matchesScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

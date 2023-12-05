@@ -1,33 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import MatchesRepositoryImp from '../../infraestructure/repositories/matchesRepositoryImp';
-import MatchesDatasourceImp from '../../infraestructure/datasources/matchesDatasourceImp';
-import { useEffect, useState } from 'react';
+import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { MatchesProvider, useMatchesState } from '../providers/matchesProvider';
 import MatchesCard from './components/matchesCard';
-import Navigation from '../../../../components/navigationTabs';
+import { MaterialIcons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native';
+import MatchEditScreen from './components/matchEditScreen';
+import MatchDeleteScreen from './components/deleteMatch';
 
-const MatchesScreenView = () => {
+type Props = {
+  route: any,
+  navigation: any
+}
+
+const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
 
    const {
-    matches,
     loading,
+    matches,
+    matchSelected,
+    matchSelectedDeleted,
 
     getMatches,
-   } = useMatchesState();
+    setMatchSelected,
+    setMatchselectedDeleted,
+    onUpdatedMatch,
+    onDeleteMatch,
+   } = useMatchesState(); 
 
    const renderCards = () => {
-    if(matches == null || !matches) {
-      return null
+    if (!matches || matches.length === 0) {
+      return <Text>No matches available</Text>;
     }
-    return matches?.map(
-      (match) => <MatchesCard key={`match-${match.id}`} match={match} />
-    );
-   }
+
+    let currentDate: string | null = null;
+
+    return matches.map((match, index,) => {
+      const showDate = currentDate !== match.date;
+      currentDate = match.date;
+
+      return (
+        <View key={`match-${match.id}`}>
+          {showDate && <Text style={styles.dateText}>{match.date}</Text>}
+          <MatchesCard
+            match={match} 
+            onEdit={setMatchSelected} 
+            onDelete={setMatchselectedDeleted}
+          />
+        </View>
+      );
+    });
+  };
 
    useEffect(() => {
-    getMatches();
+    getMatches(route.params.leagueId);
    }, []);
 
    if(loading) {
@@ -40,14 +66,32 @@ const MatchesScreenView = () => {
 
 
   return (
-    <View style={styles.container}>
+      <View style={styles.container}>
       <View style={styles.top}>
         <Text style={styles.topTitle}>Liga Regional Tlaloc</Text>
       </View>
       <Text style={styles.title}>Partidos</Text>
       <ScrollView>
-          <View style={styles.card}>{renderCards()}</View>
-      </ScrollView>    
+            <View style={styles.card}>{renderCards()}</View>       
+      </ScrollView> 
+
+      {!!matchSelected ? (
+          <MatchEditScreen
+            matchEdit={matchSelected}
+            menuVisible={!!matchSelected}
+            onSaved={onUpdatedMatch}
+            onCancelEdit={setMatchSelected}
+          />
+
+      ): null}
+      {!!matchSelectedDeleted ? (
+        <MatchDeleteScreen
+        matchDelete={matchSelectedDeleted}
+        menuVisible={!!matchSelectedDeleted}
+        onDeleted={onDeleteMatch}
+        onCancelDelete={setMatchselectedDeleted}
+      />
+      ): null}
     </View>
   );
 }
@@ -93,7 +137,16 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: 'black',
   },
+  dateText: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontWeight: '500',
+    fontSize: 20,
+    color: 'black',
+    marginRight: 5,
+    textAlign: 'center',
+  },
   card: {
     borderRadius: 10,
-  }
+  },
 });

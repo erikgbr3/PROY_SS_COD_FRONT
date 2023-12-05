@@ -8,40 +8,55 @@ import Club from "../../domain/entities/club";
 interface ContextDefinition {
   loading: boolean,
   saving: boolean,
-  message?: string,
+  success: boolean,
+  message: string | null,
   match: Match,
   homeTeamName: string,
   visitorTeamName: string,
-  clubs: Club[]
+  clubs: Club[],
+  errors: any,
 
   setMatchProp: (property: string, value: any) => void,
-  saveMatch: () => void,
-
+  saveMatch: (onSaved: Function) => void,
+  setMatch: (match: Match) => void,
 }
 
-const AddMatchContext = createContext({} as ContextDefinition);
+const EditMatchContext = createContext({} as ContextDefinition);
 
-interface AddMatchState {
+interface EditMatchState {
   loading: boolean,
   saving: boolean,
-  message?: string,
+  success: boolean,
+  message: string | null,
   match: Match, 
   homeTeamName: string,
   visitorTeamName: string,
-
+  errors: any,
 }
 
-type AddMatchActionType = 
+type EditMatchActionType = 
 { type: 'Set Loading', payload: boolean } 
 | { type: 'Set Saving', payload: boolean }
+| { type: 'Set Success', payload: {
+  success: boolean,
+  match?: Match,
+  message: string,
+}}
 | { type: 'Set Match', payload: Match }
+| { type: 'Set Message', payload: string | null}
 | { type: 'Set HomeTeamName', payload: string}
-| { type: 'Set VisitorTeamName', payload: string};
+| { type: 'Set VisitorTeamName', payload: string}
+| { type: 'Set Errors', payload: {
+  message: string,
+  errors: any
+}}
+;
 
-const InitialState : AddMatchState = {
+const InitialState : EditMatchState = {
   loading: false,
   saving: false,
-  message: undefined,
+  success: false,
+  message: null,
   match: new Match(
     0,
     0, 
@@ -56,12 +71,13 @@ const InitialState : AddMatchState = {
   ),
   homeTeamName: '',
   visitorTeamName: '',
+  errors: {},
 }
 
 
-function AddMatchReducer(
-  state: AddMatchState,
-  action: AddMatchActionType) {
+function EditMatchReducer(
+  state: EditMatchState,
+  action: EditMatchActionType) {
       switch (action.type) {
           case 'Set Loading':
               return { ...state, loading: action.payload};
@@ -78,6 +94,12 @@ function AddMatchReducer(
 
             }
 
+          case "Set Message":
+              return {
+                ...state,
+                message: action.payload
+              }
+
           case 'Set HomeTeamName':
             return{
               ...state,
@@ -88,6 +110,24 @@ function AddMatchReducer(
             return{
               ...state,
               visitorTeamName: action.payload,
+            }
+
+          case 'Set Errors':
+            return {
+              ...state,
+              errors: action.payload.errors || {},
+              message: action.payload.message,
+              saving: false,
+            }
+
+          case "Set Success":
+            return {
+              ...state,
+              success: action.payload.success,
+              message: action.payload.message,
+              errors: {},
+              saving: false,
+              //player: action.payload.player || state.player,
             }
       
           default:
@@ -100,9 +140,9 @@ function AddMatchReducer(
     clubs: Club[],
 }
 
-const AddMatchProvider : FC<Props> = ({children, clubs}) => {
+const EditMatchProvider : FC<Props> = ({children, clubs}) => {
   console.log('Clubs in AddMatchProvider:', clubs);
-    const [state, dispatch] = useReducer( AddMatchReducer, InitialState );
+    const [state, dispatch] = useReducer( EditMatchReducer, InitialState );
 
     function setMatchProp(property: string, value: any) {
 
@@ -131,7 +171,7 @@ const AddMatchProvider : FC<Props> = ({children, clubs}) => {
       })
     }
 
-    async function saveMatch() {
+    async function saveMatch(onSaved: Function) {
       const matchesRepository = new MatchesRepositoryImp(
         new MatchesDatasourceImp()
       ); 
@@ -176,40 +216,74 @@ const AddMatchProvider : FC<Props> = ({children, clubs}) => {
           }
         }
 
-        const savedMatch = await matchesRepository.addMatch(state.match);
-        console.log(savedMatch);
+        const result = await matchesRepository.addMatch(state.match);
+        if(result.match) {
+          dispatch({
+            type: 'Set Success',
+            payload: {
+              success: true,
+              match: result.match,
+              message: result.message,
+            }
+          });
+
+          onSaved(state.match)
+          return;
+        }
+
+        let errors : any = {};
+        
+        result.errors?.forEach((item) => {
+          errors[item.field] = item.error;
+        });
 
         dispatch({
-          type: 'Set Saving',
-          payload: false,
+          type: 'Set Errors',
+          payload: {
+            message: result.message,
+            errors,
+          }
         });
-      } catch (error) {
-        console.error('Error al guardar el partido:', error);
-        dispatch({
-          type: 'Set Saving',
-          payload: false,
-        });
-      }
+        onSaved(state.match);
+        
+    } catch (error) {
+     
+      console.error('Ocurrio un error:', error);
+  
+      dispatch({
+        type: 'Set Errors',
+        payload: {
+          message: 'An error occurred while saving the match.',
+          errors: {}, // You might want to update this based on the actual error.
+        }
+      });
+    }
+  }
 
-      
+    function setMatch (match: Match) {
+      dispatch({
+        type: 'Set Match',
+        payload: match
+      })
     }
 
     return(
-        <AddMatchContext.Provider value={{
+        <EditMatchContext.Provider value={{
             ...state,
             clubs,
             setMatchProp,
             saveMatch,
+            setMatch,
         }}>
             {children}
-        </AddMatchContext.Provider>
+        </EditMatchContext.Provider>
     )
 }
 
-function useAddMatchState() {
-    const context = useContext(AddMatchContext);
+function useEditMatchState() {
+    const context = useContext(EditMatchContext);
     if( context === undefined) {
-        throw new Error ("useMatchSate debe ser usado" + " con un AddMatchProvider");
+        throw new Error ("EditMatchSate debe ser usado" + " con un EditMatchProvider");
     }
 
     console.log('Clubs in useAddMatchState:', context.clubs);
@@ -217,4 +291,4 @@ function useAddMatchState() {
     return context;
 }
 
-export {AddMatchProvider, useAddMatchState};
+export {EditMatchProvider, useEditMatchState};

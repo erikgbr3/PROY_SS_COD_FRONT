@@ -5,8 +5,9 @@ import MatchResult from "../entities/matchResult";
 
 abstract class MatchesDatasource {
     abstract getClubs() : Promise<ClubsResult>;
-    abstract getMatches() : Promise<MatchResult>;
-    abstract addMatches(match: Match): Promise<AddMatchResult>;
+    abstract getMatches(leagueId: number) : Promise<MatchResult>;
+    abstract addMatch(match: Match): Promise<AddMatchResult>;
+    abstract deleteMatch(match: Match): Promise<AddMatchResult>;
 }
 
 export default MatchesDatasource;

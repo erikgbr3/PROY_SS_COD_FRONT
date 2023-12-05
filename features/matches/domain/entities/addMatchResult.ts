@@ -1,7 +1,7 @@
 import Match from "./match";
 
 class AddMatchResult {
-    matches: Match;
+    match: Match;
     error?: boolean;
     message: string;
     errors?: {
@@ -11,10 +11,10 @@ class AddMatchResult {
 
     constructor (
       message: string,
-        matches: Match,
+        match: Match,
     ) {
         this.message = message;
-        this.matches = matches;
+        this.match = match;
     }
 }
 
