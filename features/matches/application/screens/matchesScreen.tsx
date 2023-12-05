@@ -15,6 +15,12 @@ type Props = {
 
 const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
 
+  let leagueName = "Liga de Futbol";
+  
+  if (route.params?.leagueName) {
+    leagueName = route.params.leagueName;
+  }
+
    const {
     loading,
     matches,
@@ -67,9 +73,6 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
 
   return (
       <View style={styles.container}>
-      <View style={styles.top}>
-        <Text style={styles.topTitle}>Liga Regional Tlaloc</Text>
-      </View>
       <Text style={styles.title}>Partidos</Text>
       <ScrollView>
             <View style={styles.card}>{renderCards()}</View>       
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 35,
+    paddingTop: 10,
     marginLeft: 0,
     marginRight: 0,
   },
@@ -124,12 +127,6 @@ const styles = StyleSheet.create({
     marginRight: 0,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  topTitle: {
-    color: 'white',
-    fontSize: 28,
-    marginLeft: 100,
-    marginRight: 100,
   },
   title: {
     paddingTop: 10,

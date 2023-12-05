@@ -9,6 +9,9 @@ import NavigationUser from './navigationUser';
 import ClubsScreen from '../features/clubs/application/screens/clubsScreen';
 import AddClubScreen from '../features/clubs/application/screens/addClubScreen';
 
+interface RouteParams {
+  leagueName?: string;
+}
 
 const Tab = createNativeStackNavigator();
 
@@ -18,8 +21,12 @@ export default function NavigationTabs() {
       <Tab.Screen name='Ligas' component={LeaguesScreen} options={{
         headerShown: false,
       }} />
-      <Tab.Screen name='Info Liga'  component={NavigationUser} options={{
-        headerShown: true,
+     <Tab.Screen name='Info Liga'  component={NavigationUser} options={({ route }) => {
+        const params = route.params as RouteParams;
+        return {
+          title: params.leagueName ? params.leagueName : 'Info Liga',
+          headerShown: true, 
+        };
       }} />
     </Tab.Navigator>
   )

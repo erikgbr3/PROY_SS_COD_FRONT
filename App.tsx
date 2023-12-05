@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-
 import AuthScreen from './features/auth/application/screens/authScreen';
 import NavigationTabs from './components/navigationTabs';
 import AddUsersScreen from './features/users/application/screens/addUsersScreen';
@@ -12,6 +11,7 @@ import { AuthProvider } from './features/auth/application/providers/authProvider
 import NavigationClubManager from './components/navigationClubManager';
 
 const Stack = createNativeStackNavigator();
+
 export default function App() {
 
   return (
