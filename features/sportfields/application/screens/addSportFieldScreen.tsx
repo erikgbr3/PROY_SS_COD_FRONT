@@ -1,8 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { Alert, Modal, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { FC, useEffect, useState } from "react";
+import React,{ FC, useEffect, useState } from "react";
 import { MaterialIcons } from '@expo/vector-icons';
-import { AddSportFieldProvider, useAddSportFieldState } from "../providers/addSportFieldProvider";
+import { AddSportFieldsProvider, useAddSportFieldsState } from "../providers/addSportFieldProvider";
+import SportFieldCard from "./components/sportFieldCard";
+import SportFieldEditScreen from "./components/modalEditSportField";
+import SportFieldDeleteScreen from "./components/modalDeleteSportFields";
 
 const AddSportFieldScreenView = () => {
 
@@ -10,20 +13,63 @@ const AddSportFieldScreenView = () => {
     loading,
     sportField,
     saving,
-    setSportFieldProp,
-    saveSportField,
     message,
     errors,
+    sportFields,
+    success,
+
+
+    sportFieldSelected,
+    sportFieldSelectedDeleted,
+    setSportFieldSelectedDeleted,
+    onDeleteSportField,
+    onUpdatedSportField,
+    setSportFieldProp,
+    setSportFieldSelected,
+    saveSportField,
+    getSportFields,
     
-  } = useAddSportFieldState();
+  } = useAddSportFieldsState();
+
+  const renderCards = () => {
+    if (sportFields == null) {
+      return null
+    }
+    return sportFields?.map((sportField) =>
+      <SportFieldCard
+        key={sportField.id}
+        sportField={sportField} 
+        onEdit={setSportFieldSelected}
+        onDelete={setSportFieldSelectedDeleted}/>
+    )
+  }
+
+  useEffect(() => {
+    getSportFields();
+  }, [])
+
+  useEffect(() => {
+  }, [sportFields]);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [selected, setSelected] = useState('');
+  useEffect(() => {
+    if (success) {
+      Alert.alert('Registro Exitoso', message);
+      setModalVisible(false);
+    } else if (message) {
+      Alert.alert('Error', message);
+    }
+  }, [success, message]);
 
   return (
     <SafeAreaView style={[styles.container]}>
       <View style={styles.header}>
         <Text style={styles.title}>Estos son los campos</Text>
       </View>
+      <ScrollView>
+      {renderCards()}
+      </ScrollView>
       <Modal
         animationType="fade"
         transparent={true}
@@ -53,7 +99,6 @@ const AddSportFieldScreenView = () => {
               <Text style={styles.tagInput}>Nombre del campo</Text>
               <TextInput
                 style={styles.input}
-                placeholder="2023/01/01"
                 value={sportField.name || ''}
                 onChangeText={(text) => { setSportFieldProp('name', text) }}
               />
@@ -107,14 +152,30 @@ const AddSportFieldScreenView = () => {
         <MaterialIcons name="add" size={26} color="white" />
       </Pressable>
       <StatusBar style="auto" />
+      {!!sportFieldSelected ?(
+        <SportFieldEditScreen
+        sportFieldEdit={sportFieldSelected}
+        modalVisible={!!sportFieldSelected}
+        onSaved={onUpdatedSportField}
+        onCancelEdit={setSportFieldSelected}
+      />
+      ): null}
+      {!!sportFieldSelectedDeleted ?(
+        <SportFieldDeleteScreen
+        sportFieldDelete={sportFieldSelectedDeleted}
+        modalVisible={!!sportFieldSelectedDeleted}
+        onDeleted={onDeleteSportField}
+        onCancelDelete={setSportFieldSelectedDeleted}
+      />
+      ): null}
     </SafeAreaView>
   );
 }
 
 const AddSportFieldScreen = (props: any) => (
-  <AddSportFieldProvider>
+  <AddSportFieldsProvider>
     <AddSportFieldScreenView {...props} />
-  </AddSportFieldProvider>
+  </AddSportFieldsProvider>
 )
 
 export default AddSportFieldScreen;

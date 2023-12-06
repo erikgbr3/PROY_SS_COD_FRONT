@@ -16,8 +16,16 @@ class ClubsRepositoryImp extends ClubsRepository {
         return this.datasource.addClub(club);
     }
 
+    getClubsAdmin(token: string): Promise<ClubsResult> {
+        return this.datasource.getClubsAdmin(token);
+    }
+
     getClubs(): Promise<ClubsResult> {
         return this.datasource.getClubs();
+    }
+
+    deleteClub(club: Club): Promise<AddClubResult> {
+        return this.datasource.deleteClub(club);
     }
 }
 

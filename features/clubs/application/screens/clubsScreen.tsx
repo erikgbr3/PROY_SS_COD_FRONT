@@ -1,4 +1,4 @@
-import { useEffect, FC } from 'react';
+import React ,{ useEffect, FC } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import ClubCard from './components/clubCard';
 import { ClubsProvider, useClubsState } from '../providers/clubsProvider';
@@ -11,10 +11,9 @@ const ClubsScreenView:FC<Props> = ({navigation}) => {
 
   const {
     clubs,
-    loading,
 
-    getClubs
-
+    getClubs,
+    //setClubSelected,
   } = useClubsState();
  
 
@@ -23,7 +22,11 @@ const ClubsScreenView:FC<Props> = ({navigation}) => {
     {
       return null;
     }
-    return clubs?.map((club) => (<ClubCard key={`club${club.name}`} club={club} />
+    return clubs?.map((club) => (
+      <ClubCard 
+        key={`club${club.name}`} 
+        club={club} 
+      />
     ));
   }
 
@@ -31,7 +34,7 @@ const ClubsScreenView:FC<Props> = ({navigation}) => {
     getClubs();
   }, []);
 
-  const addLeagues = () => {
+  const addClub = () => {
     navigation.navigate('crearClub');
   }
 
@@ -39,8 +42,8 @@ const ClubsScreenView:FC<Props> = ({navigation}) => {
     <ScrollView style={styles.container}>
         <View style={styles.nav}>
             <Text style={styles.text}>Echale un vistazo</Text>
-            <TouchableOpacity style={styles.add} onPress={addLeagues}>
-              <Text style={styles.addText}>Crea un equipo</Text>
+            <TouchableOpacity style={styles.add} onPress={addClub}>
+              <Text style={styles.addText}>Modo Admin</Text>
             </TouchableOpacity>
         </View>
         

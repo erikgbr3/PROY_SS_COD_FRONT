@@ -1,100 +1,54 @@
 import React from "react";
-import { AddClubProvider, useAddClubState } from "../providers/addClubProvider";
-import { useClubsState } from "../providers/clubsProvider";
+import { AddClubProvider, useAddClubState } from "../../providers/addClubProvider";
+import { useClubsState } from "../../providers/clubsProvider";
 import { MaterialIcons } from '@expo/vector-icons';
 import { FC, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Alert, Modal, Pressable, SafeAreaView, StyleSheet, Text, ScrollView, TextInput, TouchableOpacity, View } from "react-native";
-import ClubAdminCard from "./components/clubAdminCard";
-import ClubEditScreen from "./components/clubEditModal";
-import ClubDeleteScreen from "./components/modalDeleteClub";
+import { Modal, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { EditClubProvider, useEditClubState } from "../../providers/editClubProvider";
+import Club from "../../../domain/entities/club";
 
-const AddClubScreenView = () => {
+interface ClubEditViewProps{
+    clubEdit: Club,
+    onSaved: Function,
+    onCancelEdit: Function,
+    modalVisible: boolean,
+}
+
+const ClubEditView:React.FC<ClubEditViewProps> = ({
+        clubEdit,
+        onSaved,
+        modalVisible,
+        onCancelEdit, 
+    }) => {
 
     const {
       loading,
       club,
       saving,
-      message,
-      errors,
-      clubs,
-      success,
-      clubsSelected,
-      clubSelectedDeleted,
-
-      setClubSelectedDeleted,
       setClubProp,
       saveClub,
-      getClubs,
-      setClubSelected,
-      onUpdatedClub,
-      onDeleteClub,
+      setClub,
+      message,
+      errors,
       
-    } = useAddClubState();
+    } = useEditClubState();
 
-    console.log("Clubs Adm",getClubs);
-
-    const renderCards = () => {
-      if (clubs == null) {
-        return null
-      }
-      return clubs?.map((clubA) =>
-        <ClubAdminCard 
-          key={clubA.id} 
-          clubA={clubA}
-          onEdit={setClubSelected}
-          onDelete={setClubSelectedDeleted}
-        />
-      )
-    }
+    useEffect(()=>{
+        setClub(clubEdit)
+    }, [clubEdit]);
   
-    useEffect(() => {
-      getClubs();
-    }, [])
-  
-    useEffect(() => {
-    }, [clubs]);
-  
-    const [modalVisible, setModalVisible] = useState(false);
-    //const [selected, setSelected] = useState('');
-    useEffect(() => {
-      if (success) {
-        Alert.alert('Registro Exitoso', message);
-        setModalVisible(false);
-      } else if (message) {
-        Alert.alert('Error', message);
-      }
-    }, [success, message]);
+    //const [modalVisible, setModalVisible] = useState(false);
   
     return (
-      <SafeAreaView style={[styles.container]}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Estos son tus Clubs</Text>
-        </View>
-        <ScrollView>
-          {renderCards()}
-
-          {!!clubsSelected ?(
-                <ClubEditScreen
-                    clubEdit={clubsSelected}
-                    modalVisible={!!clubsSelected}
-                    onSaved={setClubSelected}
-                    onCancelEdit={setClubSelected}
-                />
-          ): null}
-          {!!clubSelectedDeleted ?(
-              <ClubDeleteScreen
-                clubDelete={clubSelectedDeleted}
-                modalVisible={!!clubSelectedDeleted}
-                onDeleted={onDeleteClub}
-                onCancelDelete={setClubSelectedDeleted}
-              />
-          ):null}
-        </ScrollView>
+      
         <Modal
           animationType="fade"
           transparent={true}
           visible={modalVisible}
+          onRequestClose={()=>{
+            onCancelEdit(null);
+          }}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -106,7 +60,7 @@ const AddClubScreenView = () => {
                 color: '#0d47a1',
                 marginBottom: 5
               }}
-              >Crea un club y dirigelo</Text>
+              >Edita tu equipo</Text>
               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start', padding: 10 }}>
                 <Text style={styles.tagInput}>Nombre del club</Text>
                 <TextInput
@@ -142,7 +96,7 @@ const AddClubScreenView = () => {
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: 300, marginTop: 10 }}>
                   <View>
                     <TouchableOpacity
-                      onPress={() => setModalVisible(false)}
+                      onPress={() => onCancelEdit(null)}
                       style={{
                         backgroundColor: '#fff',
                         borderColor: '#1B6BC1',
@@ -163,7 +117,7 @@ const AddClubScreenView = () => {
                   <View>
                     <TouchableOpacity
                       onPress={() => {
-                        saveClub();
+                        saveClub(onSaved);
                       }}
                       style={{
                         backgroundColor: '#154477',
@@ -172,7 +126,7 @@ const AddClubScreenView = () => {
                         borderRadius: 5,
                         height: 50,
                       }}>
-                      <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Crear</Text>
+                      <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Actualizar</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -180,23 +134,16 @@ const AddClubScreenView = () => {
             </View>
           </View>
         </Modal>
-        <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}>
-          <MaterialIcons name="add" size={26} color="white" />
-        </Pressable>
-        <StatusBar style="auto" />
-      </SafeAreaView>
     );
   }
   
-  const AddClubScreen = (props: any) => (
-    <AddClubProvider>
-      <AddClubScreenView {...props} />
-    </AddClubProvider>
+  const ClubEditScreen = (props: ClubEditViewProps) => (
+    <EditClubProvider>
+      <ClubEditView {...props} />
+    </EditClubProvider>
   )
   
-  export default AddClubScreen;
+  export default ClubEditScreen;
   
   const styles = StyleSheet.create({
     container: {
