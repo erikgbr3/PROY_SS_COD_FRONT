@@ -1,8 +1,7 @@
-import { FC, ReactNode, createContext, useContext, useEffect, useReducer } from "react";
+import React, { FC, ReactNode, createContext, useContext, useEffect, useReducer } from "react";
 import League from "../../domain/entities/league";
 import leaguesRepositoryImp from "../../infraestructure/repositories/leaguesRepositoryImp";
 import leaguesDatasourceImp from "../../infraestructure/datasources/leaguesDatasourceImp";
-import { Alert } from "react-native";
 import { useAuthState } from "../../../auth/application/providers/authProvider";
 import LeaguesResult from "../../domain/entities/leaguesResult";
 
@@ -11,13 +10,19 @@ interface ContextDefinition {
   loading: boolean,
   saving: boolean,
   success: boolean,
-  message: string | null,
+  message?: string,
   league: League,
+  leagueSelected: League | null,
+  leagueSelectedDeleted: League | null,
   leagues: League[],
   errors: any,
   getLeagues: () => void,
   setLeagueProp: (property: string, value: any) => void,
+  setLeagueSelected: (league: League | null) => void,
+  setLeagueSelectedDeleted: (league: League | null) => void,
   saveLeague: () => void,
+  onUpdatedLeague: (league: League) => void,
+  onDeleteLeague: (league: League) => void,
 }
 
 const AddLeaguesContext = createContext({} as ContextDefinition);
@@ -26,8 +31,10 @@ interface AddLeaguesState {
   loading: boolean,
   saving: boolean,
   success: boolean,
-  message: string | null,
+  message?: string,
   league: League,
+  leagueSelected: League | null,
+  leagueSelectedDeleted: League | null,
   leagues: League[],
   errors: any
 }
@@ -36,8 +43,10 @@ type AddLeaguesActionType =
   { type: 'set Loading', payload: boolean }
   | { type: 'set Saving', payload: boolean }
   | { type: 'set League', payload: League }
+  | { type: 'set League Selected', payload: League | null }
+  | { type: 'set League Selected Deleted', payload: League | null }
   | { type: 'set Data', payload: LeaguesResult }
-  | { type: 'set Message', payload: string | null }
+  | { type: 'set Message', payload: string | undefined }
   | { type: 'set Errors', payload: any }
   | {
     type: 'set Success', payload: {
@@ -52,8 +61,10 @@ const initialState: AddLeaguesState = {
   loading: false,
   saving: false,
   success: false,
-  message: null,
+  message: '',
   league: new League('', '', '', '', '', 2),
+  leagueSelected: null,
+  leagueSelectedDeleted: null,
   leagues: [],
   errors: {},
 };
@@ -97,6 +108,16 @@ function AddLeaguesReducer(state: AddLeaguesState, action: AddLeaguesActionType)
         message: action.payload.message,
         saving: false,
       }
+    case 'set League Selected':
+      return {
+        ...state,
+        leagueSelected: action.payload
+      }
+    case 'set League Selected Deleted':
+      return {
+        ...state,
+        leagueSelectedDeleted: action.payload
+      }
     default:
       return state
   }
@@ -108,8 +129,7 @@ type Props = {
 
 const AddLeaguesProvider: FC<Props> = ({ children }) => {
   const { user } = useAuthState();
-  const {token} = useAuthState();
-  console.log(user);
+  const { token } = useAuthState();
   initialState.league = new League('', '', '', '', '', user.id || 0);
 
   const [state, dispatch] = useReducer(AddLeaguesReducer, initialState);
@@ -134,8 +154,6 @@ const AddLeaguesProvider: FC<Props> = ({ children }) => {
       payload: true,
     });
     const result = await repository.addLeague(state.league);
-    //console.log("provider", result);
-
     if (result.league) {
       dispatch({
         type: 'set Success',
@@ -185,7 +203,7 @@ const AddLeaguesProvider: FC<Props> = ({ children }) => {
     return;
   }
 
-  async function getLeagues(){    
+  async function getLeagues() {
     const repository = new leaguesRepositoryImp(
       new leaguesDatasourceImp()
     );
@@ -195,15 +213,56 @@ const AddLeaguesProvider: FC<Props> = ({ children }) => {
       payload: true
     });
 
-    console.log("este es el token",token);
     const apiResult = await repository.getLeaguesAdmin(token);
-    console.log("Api",apiResult);
-    
 
     dispatch({
       type: 'set Data',
       payload: apiResult
     });
+  }
+
+  function setLeagueSelected(league: League | null) {
+    console.log("liga Elegida",league);
+    dispatch({
+      type: 'set League Selected',
+      payload: league
+    })
+  }
+
+  function setLeagueSelectedDeleted(league: League | null) {
+    console.log("Liga a Eliminar", league);
+    dispatch({
+      type: 'set League Selected Deleted',
+      payload: league
+    })
+  }
+
+  function onUpdatedLeague(league: League) {
+    const leaguesClone = [...state.leagues]
+    const index = leaguesClone.findIndex((item) => item.id == league.id);
+    leaguesClone.splice(index, 1, league)
+    dispatch({
+      type: 'set Data',
+      payload: {
+        leagues: leaguesClone,
+      }
+    });
+    setLeagueSelected(null)
+  }
+
+  function onDeleteLeague(league: League){
+    const leaguesClone = [...state.leagues]
+    const index = leaguesClone.findIndex((item) => item.id == league.id);
+    if (index !== -1) {
+      leaguesClone.splice(index, 1);
+      dispatch({
+        type: 'set Data',
+        payload: {
+          leagues: leaguesClone,
+        },
+      });
+    }
+    setLeagueSelected(null)
   }
 
   return (
@@ -212,6 +271,10 @@ const AddLeaguesProvider: FC<Props> = ({ children }) => {
       setLeagueProp,
       saveLeague,
       getLeagues,
+      setLeagueSelected,
+      setLeagueSelectedDeleted,
+      onUpdatedLeague,
+      onDeleteLeague
     }}>
       {children}
     </AddLeaguesContext.Provider>

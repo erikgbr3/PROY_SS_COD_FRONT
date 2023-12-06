@@ -6,7 +6,9 @@ import LeaguesResult from "../entities/leaguesResult";
 abstract class leaguesRepository{
   abstract  getLeagues():Promise<LeaguesResult>;
   abstract addLeague(league: League): Promise<AddLeaguesResult>;
-  abstract  getLeaguesAdmin(token: string):Promise<LeaguesResult>
+  abstract  getLeaguesAdmin(token: string):Promise<LeaguesResult>;
+  abstract deleteLeague(league: League): Promise<AddLeaguesResult>;
+  abstract editLeague(leagueId: number , league:League): Promise<AddLeaguesResult>;
 }
 
 export default leaguesRepository

@@ -1,46 +1,95 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image} from "react-native";
+import React, { FC, useState } from 'react';
+import {View, Text, StyleSheet, Image, TouchableOpacity, Modal} from "react-native";
+import { MaterialIcons } from '@expo/vector-icons';
 import Match from "../../../domain/entities/match";
 
 type CardProps = {
     match: Match,
+    onEdit?: Function,
+    onDelete?: Function
 }
 
-export default function MatchesCard(props: CardProps) {
+const MatchesCard: FC<CardProps> = ({match, onEdit, onDelete}) => {
 
+    const [menuVisible, setMenuVisible] = useState(false);
+
+    const showModal = () => {
+        setMenuVisible(!menuVisible);
+    }
+
+    const handleEdit = () => {
+        setMenuVisible(!menuVisible);
+        if(onEdit){
+            onEdit(match);
+        }
+    }
+
+    const handleDelete = () => {
+        setMenuVisible(!menuVisible);
+        if(onDelete){
+            onDelete(match)
+        }
+    }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.date}>
-                <Text style={styles.dateText}>{props.match.date}</Text>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardData}>
-                    <View style={styles.data}>
-                        <Text style={styles.nameClub}>{props.match.homeTeamName}</Text>
+            <View style={styles.container}>
+                <TouchableOpacity onLongPress={showModal}>
+                    <View style={styles.card}>
+                        <View style={styles.cardData}>
+                            <View style={styles.data}>
+                                <Text style={styles.nameClub}>{match.homeTeamName}</Text>
+                            </View>
+                            <View> 
+                                    <Text style={styles.scoreText}>{match.scoreHome}</Text>
+                            </View>
+                        </View>
+                        
+                        <View style={styles.cardData}>
+                            <View>
+                                <Text style={styles.nameClub}>{match.visitorTeamName}</Text>
+                            </View>
+                            
+                            <View> 
+                                    <Text style={styles.scoreText}>{match.scoreVisitor}</Text>
+                            </View>
+                        </View>
+                        
+                        <View style={styles.cardData}>
+                        <Text style={styles.referee}>{match.refereeId}</Text>  
+                        </View>    
                     </View>
-                    <View> 
-                            <Text style={styles.scoreText}>{props.match.scoreHome}</Text>
-                    </View>
-                </View>
+                </TouchableOpacity>
                 
-                <View style={styles.cardData}>
-                    <View>
-                        <Text style={styles.nameClub}>{props.match.visitorTeamName}</Text>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={menuVisible}
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <View style={{borderBottomColor: 'gray', borderBottomWidth: 1, width: '100%', padding:5}}>
+                                <Text style={{ fontSize: 20, textAlign:'center' }}>¿Qué Deseas Realizar?</Text>
+                            </View>
+                            <View style={{position: "absolute", right:20, bottom: 80}}>
+                                <TouchableOpacity onPress={() => { setMenuVisible(false) }}>
+                                <MaterialIcons name="cancel" size={24} color="gray" />
+                                </TouchableOpacity>
+                            </View>
+                            <TouchableOpacity onPress={handleEdit}>
+                                <Text style={[styles.modalOption, { color: '#1d99ff' }]}>Editar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleDelete}>
+                                <Text style={[styles.modalOption, { color: 'red' }]}>Eliminar</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    
-                    <View> 
-                            <Text style={styles.scoreText}>{props.match.scoreVisitor}</Text>
-                    </View>
-                </View>
-                
-                <View style={styles.cardData}>
-                  <Text style={styles.referee}>{props.match.refereeId}</Text>  
-                </View>    
+                </Modal>
             </View>
-        </View>
+        
     );
 }
+
+export default MatchesCard
 
 const styles = StyleSheet.create({
     container: {
@@ -91,17 +140,6 @@ const styles = StyleSheet.create({
         color: 'grey',
         marginRight: 5,
     },
-    date: {
-       
-    },
-    dateText: {
-        marginTop: 5,
-        marginBottom: 5,
-        fontWeight: '500',
-        fontSize: 20,
-        color: 'black',
-        marginRight: 5,
-    },
     referee: {
         marginTop: 5,
         marginBottom: 5,
@@ -111,4 +149,24 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 8,
     },
+    
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, .5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 10,
+    alignItems: 'center',
+    elevation: 10,
+    width: '100%',
+  },
+  modalOption: {
+    fontSize: 18,
+    marginBottom: 5,
+  },
 });

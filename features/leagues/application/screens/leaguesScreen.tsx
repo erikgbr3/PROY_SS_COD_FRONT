@@ -1,9 +1,8 @@
-import React from 'react';
 import { StatusBar } from "expo-status-bar";
 import { LeaguesProvider, useLeaguesState } from "../providers/leaguesProvider"
 import LeaguesCard from "./components/leaguesCard";
 import { Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { FC, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 
 type Props = {
   navigation: any,
@@ -22,7 +21,7 @@ const LeaguesScreenView: FC<Props> = ({ navigation }) => {
       return null;
     }
     return leagues?.map((league) =>
-      <TouchableOpacity key={league.id} onPress={() => navigation.navigate('Info Liga', {leagueId:league.id})}>
+      <TouchableOpacity key={league.id} onPress={() => navigation.navigate('Info Liga', {leagueId:league.id, leagueName: league.name })}>
         <LeaguesCard league={league}/>
       </TouchableOpacity>
     )

@@ -3,16 +3,24 @@ import { View, StyleSheet, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from 'react-native-select-dropdown'
 import { useAddUsersState } from "../../providers/addUsersProvider";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
+import { useAuthState } from "../../../../auth/application/providers/authProvider";
 
-export default function SignUpForm() {
 
-  const navigation = useNavigation();
-  const roles = [{ id: 1, rol: "Administrar Liga" }, { id: 2, rol: "Manejar Club" }]
+type Props = {
+  navigation: any
+}
+
+const SignUpForm:React.FC<Props> = ({navigation}) => {
+
+  const roles = [{ id: 1, rol: "Administrar Liga" }, 
+  { id: 2, rol: "Manejar Club" }, 
+  { id: 3, rol: "Ser Arbitro" }]
   const {
     loading,
     saving,
+    success,
     user,
     setUserProp,
     saveUser,
@@ -20,7 +28,32 @@ export default function SignUpForm() {
     errors
   } = useAddUsersState();
 
+  const{signIn} = useAuthState()
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleLogin = async () => {
+    try {
+      await saveUser()
+    } catch (error) {
+      console.log('Error', error);
+    }
+  }
+
+  useEffect(() => {
+    if (success) {
+      Alert.alert('Registro Exitoso', message, [
+        {
+          text: 'Aceptar',
+          onPress: () => {
+              navigation.navigate('Auth');            
+          },
+        },
+      ]);
+    } else if (message) {
+      Alert.alert('Error', message);
+    }
+  }, [success, message]);
 
   return (
     <View style={styles.container}>
@@ -59,6 +92,7 @@ export default function SignUpForm() {
         <FontAwesome name={showPassword ? 'eye-slash' : 'eye'} size={24} color="#1B6BC1" />
       </TouchableOpacity>
       <Text>Elige que deseas hacer en Fútbol Red</Text>
+
       <SelectDropdown
         data={roles}
         buttonStyle={{ width: '100%', borderRadius: 20, marginTop: 10 }}
@@ -79,17 +113,20 @@ export default function SignUpForm() {
           return item.rol
         }}
       />
-      <TouchableOpacity style={styles.login} onPress={() => { saveUser() }}>
+
+      <TouchableOpacity style={styles.login} onPress={handleLogin}>
         <Text style={styles.loginText}>Registrarme</Text>
       </TouchableOpacity>
       <View style={styles.footer}>
         <Text style={styles.text}>¿ya tienes una cuenta?
-          <Text style={styles.enlace} onPress={() => { navigation.navigate('Auth') }}> Inicia Sesión</Text>
+          <Text style={styles.enlace} onPress={() => { navigation.navigate('Auth' as never) }}> Inicia Sesión</Text>
         </Text>
       </View>
     </View>
   )
 }
+
+export default SignUpForm;
 
 const styles = StyleSheet.create({
   container: {
