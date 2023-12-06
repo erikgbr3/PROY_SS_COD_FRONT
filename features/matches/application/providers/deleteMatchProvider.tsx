@@ -108,10 +108,6 @@ type Props = {
 }
 
 const DeleteMatchProvider: FC<Props> = ({ children }) => {
-  const { user } = useAuthState();
-  const { matchSelected } = useMatchesState();
-  const id = matchSelected?.id;
-  initialState.match = new Match(0, 0, '', '', 0, '', '', matchSelected?.id || 0);
   const [state, dispatch] = useReducer(DeleteMatchReducer, initialState);
 
   function setMatchProp(property: string, value: any) {
@@ -134,6 +130,20 @@ const DeleteMatchProvider: FC<Props> = ({ children }) => {
     })
 
     const result = await repository.deleteMatch(state.match);
+
+    if(result.match) {
+      dispatch({
+        type: 'Set Success',
+        payload: {
+          success: true,
+          match: result.match,
+          message: result.message,
+        }
+      });
+
+      onDeleted(state.match)
+      return;
+    }
     
     let errors: any = {};
     result.errors?.forEach((item) => {

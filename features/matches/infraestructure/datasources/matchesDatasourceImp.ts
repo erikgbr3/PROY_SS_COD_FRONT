@@ -86,7 +86,7 @@ class MatchesDatasourceImp extends MatchesDatasource {
     }
 
     async deleteMatch(match: Match): Promise<AddMatchResult> {
-      return fetch(`${BackendConfig.url}/api/matches?matches?id=${match.id}`, {
+      return fetch(`${BackendConfig.url}/api/matches?id=${match.id}`, {
         method: 'DELETE',
         headers: {
           'Content-type': "application/json",
