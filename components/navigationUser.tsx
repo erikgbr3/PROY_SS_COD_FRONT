@@ -12,6 +12,7 @@ type Props = {
 }
 
 const Tab = createBottomTabNavigator();
+
 const NavigationUser: React.FC<Props> = ({ route, navigation }) => {
 
   return (

@@ -1,7 +1,7 @@
 import SportField from "./sportfield";
 
 class AddSportFieldsResult{
-  sportField: SportField[];
+  sportFields: SportField[];
   error?: boolean;
   message: string;
   errors?: {
@@ -15,7 +15,7 @@ class AddSportFieldsResult{
 
   ){
     this.message = message,
-    this.sportField = sportField;
+    this.sportFields = sportField;
   }
 }
 

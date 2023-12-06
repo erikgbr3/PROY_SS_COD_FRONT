@@ -19,13 +19,6 @@ const SportFieldsScreenView:FC<Props> = ({navigation}) => {
 
   } = useSportFieldsState();
 
-  // const LeaguesScreenView:FC<Props> = ({navigation}) => {
-  //   const {
-  //     leagues,
-  //     getLeagues,
-  //   } = useLeaguesState();
- 
-
   const renderCards = () => {
     if(sportFields == null)
     {
@@ -53,9 +46,6 @@ const SportFieldsScreenView:FC<Props> = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <ScrollView style={styles.container}>
-          {/* <View style={styles.nav}>
-              <Text style={styles.text}>Mira los campos deportivos</Text>
-          </View> */}
         
           {renderCards()}
         

@@ -46,7 +46,7 @@ function clubReducer(
             case 'Set Data':
                 return {
                     ...state,
-                    clubs:action.payload.club,
+                    clubs:action.payload.clubs,
                     loading: false
                 }
                 default:
@@ -84,10 +84,11 @@ const ClubsProvider:FC<Props> = ({ children }) => {
         })
     }
 
+
     return(
         <clubsContext.Provider value ={{
             ...state,
-            getClubs
+            getClubs,
         }}>
         {children}
         </clubsContext.Provider>
