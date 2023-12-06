@@ -13,7 +13,7 @@ interface ContextDefinition {
 
     getMatches: (leagueId: number) => void,
     setMatchSelected: (match: Match | null) => void,
-    setMatchselectedDeleted: (match: Match | null) => void,
+    setMatchSelectedDeleted: (match: Match | null) => void,
     onUpdatedMatch: (match: Match) => void,
     onDeleteMatch: (match: Match) => void,
 }
@@ -22,7 +22,7 @@ const MatchesContext = createContext({} as ContextDefinition);
 
 interface MatchesState {
     loading: boolean,
-    matches: Match[],
+    matches: Match[], 
     matchSelected: Match | null,
     matchSelectedDeleted: Match | null,
 }
@@ -64,7 +64,7 @@ function matchesReducer(
             case 'Set Match Selected Deleted':
                 return {
                     ...state,
-                    matchSelectedDelete: action.payload
+                    matchSelectedDeleted: action.payload
                 }
         
             default:
@@ -106,7 +106,7 @@ const MatchesProvider : FC<Props> = ({children}) => {
         });
     }
 
-    function setMatchselectedDeleted(match: Match | null) {
+    function setMatchSelectedDeleted(match: Match | null) {
         console.log("Partido a eliminar", match);
         dispatch({
             type: 'Set Match Selected Deleted',
@@ -130,18 +130,16 @@ const MatchesProvider : FC<Props> = ({children}) => {
     }
 
     function onDeleteMatch(match: Match) {
-        const matchesClone = [...state.matches];
-        const index = matchesClone.findIndex((item) => item.id == match.id);
-        matchesClone.splice(index, 1, match);
-
+        const matchesClone = state.matches.filter(item => item.id !== match.id);
+    
         dispatch({
             type: 'Set Data',
             payload: {
                 matches: matchesClone,
             }
         });
-
-        setMatchSelected(null);
+    
+        setMatchSelectedDeleted(null);
     }
 
     return(
@@ -150,7 +148,7 @@ const MatchesProvider : FC<Props> = ({children}) => {
 
             getMatches,
             setMatchSelected,
-            setMatchselectedDeleted,
+            setMatchSelectedDeleted,
             onUpdatedMatch,
             onDeleteMatch
         }}>

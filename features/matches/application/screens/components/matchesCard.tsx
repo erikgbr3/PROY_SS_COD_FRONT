@@ -6,10 +6,10 @@ import Match from "../../../domain/entities/match";
 type CardProps = {
     match: Match,
     onEdit?: Function,
-    onDelete?: Function
+    onDeleted?: Function
 }
 
-const MatchesCard: FC<CardProps> = ({match, onEdit, onDelete}) => {
+const MatchesCard: FC<CardProps> = ({match, onEdit, onDeleted}) => {
 
     const [menuVisible, setMenuVisible] = useState(false);
 
@@ -18,7 +18,7 @@ const MatchesCard: FC<CardProps> = ({match, onEdit, onDelete}) => {
     }
 
     const handleEdit = () => {
-        setMenuVisible(!menuVisible);
+        setMenuVisible(!menuVisible); 
         if(onEdit){
             onEdit(match);
         }
@@ -26,8 +26,8 @@ const MatchesCard: FC<CardProps> = ({match, onEdit, onDelete}) => {
 
     const handleDelete = () => {
         setMenuVisible(!menuVisible);
-        if(onDelete){
-            onDelete(match)
+        if(onDeleted){
+            onDeleted(match)
         }
     }
 

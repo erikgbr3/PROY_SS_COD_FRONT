@@ -25,11 +25,11 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
     loading,
     matches,
     matchSelected,
-    matchSelectedDeleted,
+    matchSelectedDeleted, 
 
     getMatches,
     setMatchSelected,
-    setMatchselectedDeleted,
+    setMatchSelectedDeleted,
     onUpdatedMatch,
     onDeleteMatch,
    } = useMatchesState(); 
@@ -49,9 +49,10 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
         <View key={`match-${match.id}`}>
           {showDate && <Text style={styles.dateText}>{match.date}</Text>}
           <MatchesCard
+            key={match.id}
             match={match} 
             onEdit={setMatchSelected} 
-            onDelete={setMatchselectedDeleted}
+            onDeleted={setMatchSelectedDeleted}
           />
         </View>
       );
@@ -92,7 +93,7 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
         matchDelete={matchSelectedDeleted}
         menuVisible={!!matchSelectedDeleted}
         onDeleted={onDeleteMatch}
-        onCancelDelete={setMatchselectedDeleted}
+        onCancelDelete={setMatchSelectedDeleted}
       />
       ): null}
     </View>
