@@ -44,6 +44,42 @@ class SportFieldsDatasourceImp extends SportFieldsDatasource {
         })
         
       }
+
+      async deleteSportField(sportField: SportField): Promise<AddSportFieldsResult> {
+        return fetch(`${BackendConfig.url}/api/sportFields?id=${sportField.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-type': "application/json",
+          }
+        })
+        .then((response) => response.json())
+        .then((response) => {
+          const result = new AddSportFieldsResult(response.message, response.sportField || null);
+          result.errors = response.errors || null;
+          result.error = response.error || null;
+    
+          return result;
+        })   
+      }
+    
+      async editSportField(sportFieldId: number, sportField: SportField): Promise<AddSportFieldsResult> {
+        console.log("sportFieldId", sportFieldId);
+        return fetch(`${BackendConfig.url}/api/sportFields?id=${sportFieldId}`, {
+          method: 'PUT',
+          body: JSON.stringify(sportField),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => response.json())
+        .then((response) =>{
+          const result = new AddSportFieldsResult(response.message, response.sportField || null);
+          result.errors = response.errors || null;
+          result.error = response.error || null;      
+    
+          return result;
+        })
+      }
 }
 
 export default SportFieldsDatasourceImp;

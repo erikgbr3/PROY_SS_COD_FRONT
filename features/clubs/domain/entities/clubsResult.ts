@@ -1,12 +1,12 @@
 import Club from "./club";
 
 class ClubsResult{
-    club: Club[];
+    clubs: Club[];
 
     constructor(
-        club: Club[],
+        clubs: Club[],
     ) {
-        this.club = club;
+        this.clubs = clubs;
     }
 }
 

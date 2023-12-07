@@ -3,16 +3,17 @@ import { Text,  StyleSheet, View, Platform, StatusBar,} from "react-native";
 import { AddUsersProvider } from "../providers/addUsersProvider"
 import { SafeAreaView } from "react-native";
 import SignUpForm from "./components/signUpForm";
+import { useNavigation } from '@react-navigation/native';
 
 const AddUsersScreenView = () => {
-
+  const navigation = useNavigation();
   return(
     <SafeAreaView style={styles.container}>
       <View style={styles.circulo}/>
       <View style={styles.show}>
         <Text style={styles.title}>Registrate a Fútbol Red</Text>
         <Text style={styles.subtitle}>Con Fútbol Red, todo es más fácil.</Text>
-        <SignUpForm />
+        <SignUpForm navigation={navigation}/>
       </View>
     </SafeAreaView> 
   )

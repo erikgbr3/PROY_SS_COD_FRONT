@@ -12,11 +12,11 @@ class Club {
         ownerTeamId?: number,
         id?: number,
         ){
-            this.id = id;
             this.name = name;
             this.locality = locality;
             this.fieldId = fieldId;
             this.ownerTeamId = ownerTeamId;  
+            this.id = id;
     }
 }
 

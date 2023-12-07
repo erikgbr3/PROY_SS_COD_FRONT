@@ -20,6 +20,14 @@ class SportFieldsRepositoryImp extends SportFieldsRepository {
     addSportField(sportField:SportField): Promise<AddSportFieldsResult>{
         return this.datasource.addSportField(sportField);
     }
+
+    deleteSportField(sportField: SportField): Promise<AddSportFieldsResult> {
+        return this.datasource.deleteSportField(sportField);
+    }
+  
+    editSportField(sportFieldId: number, sportField: SportField): Promise<AddSportFieldsResult> {
+        return this.datasource.editSportField(sportFieldId, sportField)
+    }
 }
 
 export default SportFieldsRepositoryImp;
