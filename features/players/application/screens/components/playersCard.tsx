@@ -13,8 +13,7 @@ const PlayersCard:FC<CardProps> = ({
     onEdit
 
 }) => {
-
-
+    
     return (
         <View style={styles.container}>
             <View style={styles.card}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { AddMatchProvider, useAddMatchState } from "../providers/addMatchProvider";
-import { useClubsState } from "../providers/clubsProvider";
+import { AddMatchProvider, useAddMatchState } from "../../providers/addMatchProvider";
+import { useClubsState } from "../../providers/clubsProvider";
 
 
 const AddMatchView = () => {

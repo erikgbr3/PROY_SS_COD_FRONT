@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { MatchesProvider, useMatchesState } from '../providers/matchesProvider';
-import MatchesCard from './components/matchesCard';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
-import MatchEditScreen from './components/matchEditScreenReferee';
-import MatchDeleteScreen from './components/deleteMatch';
+import MatchEditScreenReferee from './components/matchEditScreenReferee';
+import MatchesCardReferee from './components/matchesCardReferee';
 
 type Props = {
   route: any,
   navigation: any
 }
 
-const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
+const MatchesScreenRefereeView: React.FC<Props> = ({route, navigation}) => {
 
   let leagueName = "Liga de Futbol";
   
@@ -24,14 +23,11 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
    const {
     loading,
     matches,
-    matchSelected,
-    matchSelectedDeleted, 
+    matchSelected, 
 
     getMatches,
     setMatchSelected,
-    setMatchSelectedDeleted,
     onUpdatedMatch,
-    onDeleteMatch,
    } = useMatchesState(); 
 
    const renderCards = () => {
@@ -48,9 +44,10 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
       return (
         <View key={`match-${match.id}`}>
           {showDate && <Text style={styles.dateText}>{match.date}</Text>}
-          <MatchesCard
+          <MatchesCardReferee
             key={match.id}
-            match={match}
+            match={match} 
+            onEdit={setMatchSelected}
           />
         </View>
       );
@@ -78,35 +75,26 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
       </ScrollView> 
 
       {!!matchSelected ? (
-          <MatchEditScreen
+          <MatchEditScreenReferee
             matchEdit={matchSelected}
             menuVisible={!!matchSelected}
             onSaved={onUpdatedMatch}
             onCancelEdit={setMatchSelected}
           />
-
-      ): null}
-      {!!matchSelectedDeleted ? (
-        <MatchDeleteScreen
-        matchDelete={matchSelectedDeleted}
-        menuVisible={!!matchSelectedDeleted}
-        onDeleted={onDeleteMatch}
-        onCancelDelete={setMatchSelectedDeleted}
-      />
       ): null}
     </View>
   );
 }
 
-const MatchesScreen = (props : any) => {
+const MatchesScreenReferee = (props : any) => {
   return(
   <MatchesProvider>
-    <MatchesScreenView {...props}/>
+    <MatchesScreenRefereeView {...props}/>
   </MatchesProvider>
   )
 }
 
-export default MatchesScreen;
+export default MatchesScreenReferee;
 
 const styles = StyleSheet.create({
   container: {

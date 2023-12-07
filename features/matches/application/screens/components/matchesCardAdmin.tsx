@@ -5,13 +5,35 @@ import Match from "../../../domain/entities/match";
 
 type CardProps = {
     match: Match,
+    onEdit?: Function,
+    onDeleted?: Function
 }
 
-const MatchesCard: FC<CardProps> = ({match}) => {
+const MatchesCardAdmin: FC<CardProps> = ({match, onEdit, onDeleted}) => {
 
+    const [menuVisible, setMenuVisible] = useState(false);
+
+    const showModal = () => {
+        setMenuVisible(!menuVisible);
+    }
+
+    const handleEdit = () => {
+        setMenuVisible(!menuVisible); 
+        if(onEdit){
+            onEdit(match);
+        }
+    }
+
+    const handleDelete = () => {
+        setMenuVisible(!menuVisible);
+        if(onDeleted){
+            onDeleted(match)
+        }
+    }
 
     return (
             <View style={styles.container}>
+                <TouchableOpacity onLongPress={showModal}>
                     <View style={styles.card}>
                         <View style={styles.cardData}>
                             <View style={styles.data}>
@@ -36,12 +58,38 @@ const MatchesCard: FC<CardProps> = ({match}) => {
                         <Text style={styles.referee}>{match.refereeId}</Text>  
                         </View>    
                     </View>
+                </TouchableOpacity>
+                
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={menuVisible}
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <View style={{borderBottomColor: 'gray', borderBottomWidth: 1, width: '100%', padding:5}}>
+                                <Text style={{ fontSize: 20, textAlign:'center' }}>¿Qué Deseas Realizar?</Text>
+                            </View>
+                            <View style={{position: "absolute", right:20, bottom: 80}}>
+                                <TouchableOpacity onPress={() => { setMenuVisible(false) }}>
+                                <MaterialIcons name="cancel" size={24} color="gray" />
+                                </TouchableOpacity>
+                            </View>
+                            <TouchableOpacity onPress={handleEdit}>
+                                <Text style={[styles.modalOption, { color: '#1d99ff' }]}>Editar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleDelete}>
+                                <Text style={[styles.modalOption, { color: 'red' }]}>Eliminar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         
     );
 }
 
-export default MatchesCard
+export default MatchesCardAdmin;
 
 const styles = StyleSheet.create({
     container: {

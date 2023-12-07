@@ -11,7 +11,7 @@ interface MatchEditViewProps {
   onCancelEdit: Function,
 }
 
-const MatchEditView: FC<MatchEditViewProps> = ({matchEdit, onSaved, menuVisible, onCancelEdit}) => {
+const MatchEditAdminView: FC<MatchEditViewProps> = ({matchEdit, onSaved, menuVisible, onCancelEdit}) => {
 
   const {
     loading,
@@ -42,7 +42,14 @@ const MatchEditView: FC<MatchEditViewProps> = ({matchEdit, onSaved, menuVisible,
         }}
     >
       <View>
-          <Text>Equipo Local: {match.homeTeamName}</Text> 
+          <Text>Equipo Local:</Text> 
+          <TextInput
+            placeholder={match.homeTeamName}
+            value={match?.homeTeamName || ''}
+            onChangeText={(text) => {
+              setMatchProp('homeTeamName', text);
+            }}
+          ></TextInput>
       </View>
       <View>
           <Text>Goles: </Text>
@@ -56,7 +63,14 @@ const MatchEditView: FC<MatchEditViewProps> = ({matchEdit, onSaved, menuVisible,
         </View>
 
       <View>
-        <Text>Equipo Visitante: {match.visitorTeamName}</Text>
+        <Text>Equipo Visitante:</Text>
+        <TextInput
+            placeholder={match.visitorTeamName}
+            value={match?.visitorTeamName || ''}
+            onChangeText={(text) => {
+              setMatchProp('visitorTeamName', text);
+            }}
+          ></TextInput>
       </View>
         <View>
           <Text>Goles:</Text>
@@ -69,6 +83,28 @@ const MatchEditView: FC<MatchEditViewProps> = ({matchEdit, onSaved, menuVisible,
           ></TextInput>
         </View>
 
+        <View>
+        <Text>Fecha:</Text>
+        <TextInput
+            placeholder={match.date}
+            value={match?.date || ''}
+            onChangeText={(text) => {
+              setMatchProp('date', text);
+            }}
+          ></TextInput>
+      </View>
+
+      <View>
+        <Text>Hora:</Text>
+        <TextInput
+            placeholder={match.hour}
+            value={match?.hour || ''}
+            onChangeText={(text) => {
+              setMatchProp('hour', text);
+            }}
+          ></TextInput>
+      </View>
+
         <Button
           title="Guardar"
           onPress={() => saveMatch(onSaved)}
@@ -79,17 +115,17 @@ const MatchEditView: FC<MatchEditViewProps> = ({matchEdit, onSaved, menuVisible,
  )
 }
 
-const MatchEditScreen = (props: any) => {
+const matchEditScreenAdmin = (props: any) => {
   const { clubs } = useClubsState();
 
  return (
   <EditMatchProvider clubs={clubs}>
-    <MatchEditView {...props}/>
+    <MatchEditAdminView {...props}/>
   </EditMatchProvider>
  )
 };
 
-export default MatchEditScreen;
+export default matchEditScreenAdmin;
 
 const styles = StyleSheet.create({
   container: {

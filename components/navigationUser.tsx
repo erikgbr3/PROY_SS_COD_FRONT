@@ -6,6 +6,7 @@ import ClubsScreen from '../features/clubs/application/screens/clubsScreen';
 import PositionsScreen from '../features/tablepositions/application/screens/positionScreen';
 import { Entypo } from '@expo/vector-icons';
 
+
 type Props = {
   route: any,
   navigation: any,
