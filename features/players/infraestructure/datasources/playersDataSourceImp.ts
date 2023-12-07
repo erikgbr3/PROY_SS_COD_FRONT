@@ -5,11 +5,12 @@ import Player from "../../domain/entities/player";
 import PlayerResult from "../../domain/entities/playerResult";
 
 class PlayersDatasourceImp extends PlayersDatasource{
+
   async addPlayer( player : Player ): Promise<AddPlayerResult> {
     console.log(player);
 
     return fetch(`${BackendConfig.url}/api/players`, {
-      method: "POST", // or 'PUT'
+      method: !player.id? "POST" : "PUT",
       body: JSON.stringify(player), // data can be `string` or {object}!
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +27,7 @@ class PlayersDatasourceImp extends PlayersDatasource{
       });
   }
 
-  async getPlayers(): Promise<PlayerResult> {
+  async getPlayers(clubId: number): Promise<PlayerResult> {
     return fetch(`${BackendConfig.url}/api/players`)
     .then((response) => response.json())
     .then((response) => {
@@ -46,6 +47,23 @@ class PlayersDatasourceImp extends PlayersDatasource{
       )
     })
   } 
+
+  async deletePlayer(player: Player): Promise<AddPlayerResult> {
+    return fetch(`${BackendConfig.url}/api/players?id=${player.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Contend-type': "application/json",
+      }
+    })
+    .then((response) => response.json())
+      .then((response) => {
+        const result = new AddPlayerResult(response.message, response.player || null);
+        result.errors = response.errors || null;
+        result.error = response.error || null;
+
+        return result;
+      })
+  }
 }
 
 export default PlayersDatasourceImp;

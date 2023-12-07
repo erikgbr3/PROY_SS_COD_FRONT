@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { MatchesProvider, useMatchesState } from '../providers/matchesProvider';
-import MatchesCard from './components/matchesCard';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
-import MatchEditScreen from './components/matchEditScreenReferee';
+import MatchEditScreenAdmin from './components/matchEditScreenAdmin';
 import MatchDeleteScreen from './components/deleteMatch';
+import MatchesCardAdmin from './components/matchesCardAdmin';
 
 type Props = {
   route: any,
   navigation: any
 }
 
-const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
+const MatchesScreenAdminView: React.FC<Props> = ({route, navigation}) => {
 
   let leagueName = "Liga de Futbol";
   
@@ -48,9 +48,11 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
       return (
         <View key={`match-${match.id}`}>
           {showDate && <Text style={styles.dateText}>{match.date}</Text>}
-          <MatchesCard
+          <MatchesCardAdmin
             key={match.id}
-            match={match}
+            match={match} 
+            onEdit={setMatchSelected} 
+            onDeleted={setMatchSelectedDeleted}
           />
         </View>
       );
@@ -78,7 +80,7 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
       </ScrollView> 
 
       {!!matchSelected ? (
-          <MatchEditScreen
+          <MatchEditScreenAdmin
             matchEdit={matchSelected}
             menuVisible={!!matchSelected}
             onSaved={onUpdatedMatch}
@@ -98,15 +100,15 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
   );
 }
 
-const MatchesScreen = (props : any) => {
+const MatchesScreenAdmin = (props : any) => {
   return(
   <MatchesProvider>
-    <MatchesScreenView {...props}/>
+    <MatchesScreenAdminView {...props}/>
   </MatchesProvider>
   )
 }
 
-export default MatchesScreen;
+export default MatchesScreenAdmin;
 
 const styles = StyleSheet.create({
   container: {
