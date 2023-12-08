@@ -41,7 +41,7 @@ class MatchesDatasourceImp extends MatchesDatasource {
           console.log(response); 
           const result = new AddMatchResult(response.message, response.match || null);
           result.errors = response.errors || null;
-          result.error = response.error || false;
+          result.error = response.error || false; 
 
           return result;
         });

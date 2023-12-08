@@ -10,6 +10,7 @@ type CardProps = {
 
 const MatchesCardReferee: FC<CardProps> = ({ match, onEdit }) => {
 
+
     const [menuVisible, setMenuVisible] = useState(false);
 
     const showModal = () => {
@@ -140,7 +141,6 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 8,
     },
-
     modalContainer: {
         flex: 1,
         justifyContent: 'flex-end',

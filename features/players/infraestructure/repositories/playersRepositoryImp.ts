@@ -6,6 +6,7 @@ import PlayersRepository from "../../domain/repositories/playersRespository";
 
 class PlayersRepositoryImp extends PlayersRepository{
   
+  
   datasource: PlayersDatasource;
 
   constructor(datasource: PlayersDatasource){

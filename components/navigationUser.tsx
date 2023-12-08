@@ -7,6 +7,7 @@ import PositionsScreen from '../features/tablepositions/application/screens/posi
 import { Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+
 type Props = {
   route: any,
   navigation: any,

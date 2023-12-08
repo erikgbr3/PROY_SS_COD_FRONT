@@ -14,7 +14,6 @@ const PlayersCard: FC<CardProps> = ({
 
 }) => {
 
-
   return (
     <View style={styles.tarjeta}>
       <Image source={require('../../../../../assets/player.jpg')} style={styles.imagen} />

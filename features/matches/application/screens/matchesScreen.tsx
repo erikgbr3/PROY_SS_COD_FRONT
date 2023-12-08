@@ -5,7 +5,7 @@ import { MatchesProvider, useMatchesState } from '../providers/matchesProvider';
 import MatchesCard from './components/matchesCard';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
-import MatchEditScreen from './components/matchEditScreen';
+import MatchEditScreen from './components/matchEditScreenReferee';
 import MatchDeleteScreen from './components/deleteMatch';
 
 type Props = {
@@ -64,7 +64,7 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
    if(loading) {
     return(
       <ScrollView>
-        <Text>Cargando...</Text>
+        <Text>Cargando...</Text> 
       </ScrollView>
     ) 
    }

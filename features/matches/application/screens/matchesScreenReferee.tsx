@@ -20,6 +20,7 @@ const MatchesScreenRefereeView: React.FC<Props> = ({route, navigation}) => {
     getMatches,
     setMatchSelected,
     onUpdatedMatch,
+
    } = useMatchesRefereeState(); 
 
    const renderCards = () => {

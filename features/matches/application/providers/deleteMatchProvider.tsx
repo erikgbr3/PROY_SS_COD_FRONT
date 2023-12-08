@@ -182,7 +182,7 @@ const DeleteMatchProvider: FC<Props> = ({ children }) => {
 function useDeleteMatchesState() {
   const context = useContext(DeleteMatchContext);
   if (context === undefined) {
-    throw new Error('UseDeleteLeagueState debe ser usado con un DeleteLeagueProvider');
+    throw new Error('UseDeleteMatchState debe ser usado con un DeleteMatchProvider');
   }
   return context;
 }
