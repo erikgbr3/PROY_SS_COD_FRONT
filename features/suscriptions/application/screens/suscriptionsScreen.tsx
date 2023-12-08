@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { ActivityIndicator, AppBar } from '@react-native-material/core';
-import { Searchbar, IconButton } from 'react-native-paper';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import { SuscriptionsProvider, useSuscriptionsState } from '../providers/suscriptionsProvider';
 import SuscriptionCard from './components/suscriptionCard';
 import AddSuscriptionView from './components/addSuscription';
 import SuscriptionEditScreen from './components/suscriptionEdit';
 import SuscriptionDeleteScreen from './components/deleteSuscription';
 
-function SuscriptionScreenView() {
+type Props = {
+  route:any,
+  navigation: any,
+}
+
+const SuscriptionScreenView:React.FC<Props> = ({route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const showModal = () => {
@@ -38,7 +41,7 @@ function SuscriptionScreenView() {
   };
 
   useEffect(() => {
-    getSuscriptions();
+    getSuscriptions(route.params.clubId);
   }, []);
 
   const renderCards = () => {
@@ -57,33 +60,16 @@ function SuscriptionScreenView() {
   if (loading) {
     return (
       <View style={[styles.container, styles.horizontal]}>
-        <ActivityIndicator size={120} color='#00ff00'></ActivityIndicator>
+        <Text>cargando</Text>
       </View>
     )
   }
 
   return (
     <View style={styles.container}>
-      <AppBar title="Suscripciones registradas" color="#0559B7" tintColor="white" centerTitle={true} />
-      <Searchbar
-        placeholder="Buscar Suscripciones"
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-        style={styles.searchBar}
-        inputStyle={styles.searchInput}
-      />
       <ScrollView contentContainerStyle={styles.containerScrollView}>
         {renderCards()}
       </ScrollView>
-
-      {/* Botón de agregar */}
-      <IconButton
-        icon="plus"
-        onPress={showModal}
-        style={styles.addButton}
-        iconColor="#ffffff"
-        size={30}
-      />
       <AddSuscriptionView modalVisible={modalVisible} setModalVisible={setModalVisible} onSaved = {onSavedSuscription} />
 
       {!!suscriptionSelected ? (

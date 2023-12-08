@@ -1,61 +1,61 @@
 import React from "react";
-import {View, Text, StyleSheet, Image} from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import Player from "../../../domain/entities/player";
 import { FC } from "react";
 
 type CardProps = {
-    player: Player,
-    onEdit?: Function,
+  player: Player,
+  onEdit?: Function,
 }
 
-const PlayersCard:FC<CardProps> = ({
-    player,
-    onEdit
+const PlayersCard: FC<CardProps> = ({
+  player,
+  onEdit
 
 }) => {
-    
-    return (
-        <View style={styles.container}>
-            <View style={styles.card}>
-                <Text style={styles.text}>{player.name}</Text>
-                <Text style={styles.text}>{player.lastname}</Text>
-                <Text style={styles.text}>{player.age}</Text>
-                <Text style={styles.text}>{player.numberjersey}</Text>
-                <Text style={styles.text}>{player.position}</Text>
-                <Text style={styles.text}>{player.cellphone}</Text>
-                <Text style={styles.text}>{player.curp}</Text>
-                <Text style={styles.text}>{player.clubId}</Text>
-            </View>
-        </View>
-    );
+
+  return (
+    <View style={styles.tarjeta}>
+      <Image source={require('../../../../../assets/player.jpg')} style={styles.imagen} />
+      <View>
+        <Text style={{ fontSize: 24, color: "#777777", fontWeight: 'bold' }}>{player.numberjersey}</Text>
+      </View>
+      <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{player.name} {player.lastname}</Text>
+      <Image source={{ uri: "https://previews.123rf.com/images/captainvector/captainvector1601/captainvector160116102/51723449-logotipo-del-club-de-f%C3%BAtbol.jpg" }}
+        style={styles.club} />
+      <Text>{player.position}</Text>
+    </View>
+  );
 }
 
 export default PlayersCard;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        alignContent: 'center', 
-        alignItems: 'center',
-    },
-    card: {
-      backgroundColor: "#FFFFFF",
-      padding: 1,
-      borderRadius: 30,
-      borderStyle: 'solid',
-      borderWidth:.5,
-      borderColor:'black',
-      width: 380,
-      height:'auto',
-      overflow: "hidden",
-      margin: 5,
-    },
-    text: {
-      marginBottom: 2,
-      textAlign: "center",
-      color: 'grey',
-      fontSize: 20,
-    },
+  tarjeta: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 10,
+    margin: 10,
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.6,
+    shadowRadius: 10,
+    elevation: 10,
+    width: 150
+  },
+  imagen: {
+    width: "100%",
+    height: 180,
+    marginBottom: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
+  },
+  club: {
+    width: 20,
+    height: 20,
+    position: 'absolute',
+    bottom: 50,
+    right: 10
+  },
 });

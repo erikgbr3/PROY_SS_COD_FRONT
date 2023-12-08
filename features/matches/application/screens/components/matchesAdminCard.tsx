@@ -6,10 +6,10 @@ import Match from "../../../domain/entities/match";
 type CardProps = {
     match: Match,
     onEdit?: Function,
+    onDeleted?: Function
 }
 
-const MatchesCardReferee: FC<CardProps> = ({ match, onEdit }) => {
-
+const MatchesAdminCard: FC<CardProps> = ({ match, onEdit, onDeleted }) => {
 
     const [menuVisible, setMenuVisible] = useState(false);
 
@@ -24,10 +24,17 @@ const MatchesCardReferee: FC<CardProps> = ({ match, onEdit }) => {
         }
     }
 
+    const handleDelete = () => {
+        setMenuVisible(!menuVisible);
+        if (onDeleted) {
+            onDeleted(match)
+        }
+    }
+
     return (
-        <TouchableOpacity onLongPress={showModal}>
-            <View style={[styles.card]}>
-                <View style={{ flexDirection: 'row' }}>
+        <View style={styles.container}>
+            <TouchableOpacity onLongPress={showModal}>
+                <View style={[styles.card, {flexDirection:'row'}]}>
                     <View style={styles.cardData}>
                         <View style={styles.data}>
                             <Text style={styles.nameClub}>{match.homeTeamName}</Text>
@@ -36,22 +43,21 @@ const MatchesCardReferee: FC<CardProps> = ({ match, onEdit }) => {
                             <Text style={styles.scoreText}>{match.scoreHome}</Text>
                         </View>
                     </View>
-                    <View style={{ width: '10%', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ fontSize: 15, color: '#074dc6', fontWeight: '500' }}>VS</Text>
+                    <View>
+                        <Text> - </Text>
                     </View>
                     <View style={styles.cardData}>
                         <View>
                             <Text style={styles.nameClub}>{match.visitorTeamName}</Text>
                         </View>
+
                         <View>
                             <Text style={styles.scoreText}>{match.scoreVisitor}</Text>
                         </View>
                     </View>
                 </View>
-                <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', margin: 10 }}>
-                    <Text style={{ fontSize: 16 }}>{match.hour}</Text>
-                </View>
-            </View>
+            </TouchableOpacity>
+
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -70,15 +76,18 @@ const MatchesCardReferee: FC<CardProps> = ({ match, onEdit }) => {
                         <TouchableOpacity onPress={handleEdit}>
                             <Text style={[styles.modalOption, { color: '#1d99ff' }]}>Editar</Text>
                         </TouchableOpacity>
+                        <TouchableOpacity onPress={handleDelete}>
+                            <Text style={[styles.modalOption, { color: 'red' }]}>Eliminar</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
+        </View>
 
-        </TouchableOpacity>
     );
 }
 
-export default MatchesCardReferee;
+export default MatchesAdminCard
 
 const styles = StyleSheet.create({
     container: {
@@ -92,22 +101,19 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
         padding: 1,
         borderRadius: 10,
+        borderStyle: 'solid',
+        borderWidth: .5,
+        borderColor: 'black',
         width: 320,
         height: 'auto',
         overflow: "hidden",
         margin: 5,
-        shadowColor: '#0d47a1',
-        shadowOffset: { width: 0, height: 30 },
-        shadowOpacity: 10,
-        shadowRadius: 5,
-        elevation: 10,
     },
     cardData: {
         backgroundColor: '#FFFFFF',
         alignContent: 'center',
         alignItems: 'center',
         shadowColor: 'grey',
-        width: '45%'
     },
     data: {
         backgroundColor: '#FFFFFF',
@@ -120,16 +126,16 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontWeight: '500',
         fontSize: 20,
-        color: '#0d47a1',
+        color: 'grey',
         marginLeft: 8,
         marginRight: 5,
     },
     scoreText: {
         marginTop: 5,
         marginBottom: 5,
-        fontWeight: 'bold',
+        fontWeight: '500',
         fontSize: 30,
-        color: '#074dc6',
+        color: 'grey',
         marginRight: 5,
     },
     referee: {
@@ -141,6 +147,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 8,
     },
+
     modalContainer: {
         flex: 1,
         justifyContent: 'flex-end',

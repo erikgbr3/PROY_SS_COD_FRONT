@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { MatchesProvider, useMatchesState } from '../providers/matchesProvider';
-import { MaterialIcons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native';
 import MatchEditScreenReferee from './components/matchEditScreenReferee';
 import MatchesCardReferee from './components/matchesCardReferee';
+import { MatchesRefereeProvider, useMatchesRefereeState } from '../providers/matchesRefereeProvider';
 
 type Props = {
   route: any,
@@ -13,12 +11,6 @@ type Props = {
 }
 
 const MatchesScreenRefereeView: React.FC<Props> = ({route, navigation}) => {
-
-  let leagueName = "Liga de Futbol";
-  
-  if (route.params?.leagueName) {
-    leagueName = route.params.leagueName;
-  }
 
    const {
     loading,
@@ -28,7 +20,8 @@ const MatchesScreenRefereeView: React.FC<Props> = ({route, navigation}) => {
     getMatches,
     setMatchSelected,
     onUpdatedMatch,
-   } = useMatchesState(); 
+
+   } = useMatchesRefereeState(); 
 
    const renderCards = () => {
     if (!matches || matches.length === 0) {
@@ -55,7 +48,7 @@ const MatchesScreenRefereeView: React.FC<Props> = ({route, navigation}) => {
   };
 
    useEffect(() => {
-    getMatches(route.params.leagueId);
+    getMatches();
    }, []);
 
    if(loading) {
@@ -88,9 +81,9 @@ const MatchesScreenRefereeView: React.FC<Props> = ({route, navigation}) => {
 
 const MatchesScreenReferee = (props : any) => {
   return(
-  <MatchesProvider>
+  <MatchesRefereeProvider>
     <MatchesScreenRefereeView {...props}/>
-  </MatchesProvider>
+  </MatchesRefereeProvider>
   )
 }
 

@@ -9,9 +9,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 type cardProps = {
   leagueA: League,
   onEdit?: Function,
-  onDelete?: Function
+  onDelete?: Function,
+  navigation: any
 }
-const LeaguesAdminCard: React.FC<cardProps> = ({ leagueA, onEdit, onDelete }) => {
+const LeaguesAdminCard: React.FC<cardProps> = ({ leagueA, onEdit, onDelete, navigation }) => {
   const [menuVisible, setMenuVisible] = useState(false);
 
   const handleEdit = () => {
@@ -29,7 +30,9 @@ const LeaguesAdminCard: React.FC<cardProps> = ({ leagueA, onEdit, onDelete }) =>
   }
 
   return (
-    <TouchableOpacity onLongPress={() => setMenuVisible(true)}>
+    <TouchableOpacity 
+      onPress={() => navigation.navigate('partidos', {leagueId:leagueA.id, leagueName: leagueA.name })}
+      onLongPress={() => setMenuVisible(true)}>
       <View style={styles.tarjeta}>
         <Image source={require('../../../../../assets/ligamx.jpg')} style={styles.imagen} />
         <Text style={styles.nombre}>{leagueA.name}</Text>

@@ -20,8 +20,8 @@ class SuscriptionRepositoryImp extends SuscriptionRepository{
     return this.datasource.AddSuscriptions(suscription);
   }
 
-  getSuscriptions(): Promise<SuscriptionResult> {
-    return this.datasource.getSuscriptions();
+  getSuscriptions(clubId:number): Promise<SuscriptionResult> {
+    return this.datasource.getSuscriptions(clubId);
   } 
   
 }

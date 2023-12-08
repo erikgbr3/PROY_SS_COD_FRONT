@@ -1,4 +1,4 @@
-import React,{ FC, ReactNode, createContext, useContext, useReducer } from "react";
+import React, { FC, ReactNode, createContext, useContext, useReducer } from "react";
 import Player from "../../domain/entities/player";
 import PlayerResult from "../../domain/entities/playerResult";
 import PlayersRepositoryImp from "../../infraestructure/repositories/playersRepositoryImp";
@@ -9,40 +9,40 @@ interface ContextDefinition {
     players: Player[];
     playerSelected: Player | null;
     playerSelectedDeleted: Player | null,
-      
-    getPlayers: (clubId:number) => void;
+
+    getPlayers: (clubId: number) => void;
     setPlayerSelected: (player: Player | null) => void;
     setPlayerSelectedDeleted: (player: Player | null) => void;
     onUpdatedPlayer: (player: Player) => void;
     onDeletePlayer: (player: Player) => void;
 }
 
-const PlayersContext = createContext({} as ContextDefinition);
+const PlayersAdminContext = createContext({} as ContextDefinition);
 
-interface PlayersState {
+interface PlayersAdminState {
     loading: boolean,
     players: Player[],
     playerSelected: Player | null,
     playerSelectedDeleted: Player | null,
 }
 
-type PlayersActionType = 
+type PlayersAdminActionType = 
 { type: 'Set Loading', payload: boolean } 
 | { type: 'Set Data', payload: PlayerResult }
 | { type: 'Set Player Selected', payload: Player | null }
 | { type: 'Set Player Selected Deleted', payload: Player | null}
 ;
 
-const InitialState : PlayersState = {
+const InitialState : PlayersAdminState = {
     loading: false,
     players: [],
     playerSelected: null,
     playerSelectedDeleted: null,
 }
 
-function PlayersReducer(
-    state: PlayersState,
-    action: PlayersActionType) {
+function PlayersAdminReducer(
+    state: PlayersAdminState,
+    action: PlayersAdminActionType) {
         switch (action.type) {
             case 'Set Loading':
                 return { ...state, loading: action.payload};
@@ -75,11 +75,10 @@ type Props = {
     children?: ReactNode
 }
 
-const PlayersProvider : FC<Props> = ({children}) => {
-    const [state, dispatch] = useReducer( PlayersReducer, InitialState );
+const PlayersAdminProvider : FC<Props> = ({children}) => {
+    const [state, dispatch] = useReducer( PlayersAdminReducer, InitialState );
 
-    const getPlayers = async (clubId:number) => {
-
+    const getPlayers = async (clubId: number) => {
         const repository = new PlayersRepositoryImp(
             new PlayersDatasourceImp()
         );
@@ -141,7 +140,7 @@ const PlayersProvider : FC<Props> = ({children}) => {
     }
 
     return(
-        <PlayersContext.Provider value={{
+        <PlayersAdminContext.Provider value={{
             ...state,
 
             getPlayers,
@@ -151,12 +150,12 @@ const PlayersProvider : FC<Props> = ({children}) => {
             onDeletePlayer,
         }}>
             {children}
-        </PlayersContext.Provider>
+        </PlayersAdminContext.Provider>
     )
 }
 
-function usePlayersState() {
-    const context = useContext(PlayersContext);
+function usePlayersAdminState() {
+    const context = useContext(PlayersAdminContext);
     if( context === undefined) {
         throw new Error ("useMatchesSate debe ser usado" + " con un MatchesProvider");
     }
@@ -164,4 +163,4 @@ function usePlayersState() {
     return context;
 }
 
-export {PlayersProvider, usePlayersState};
+export {PlayersAdminProvider, usePlayersAdminState};

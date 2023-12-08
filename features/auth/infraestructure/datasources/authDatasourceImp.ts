@@ -1,7 +1,6 @@
 import BackendConfig from "../../../../config/backend/config";
 import AuthDatasource from "../../domain/datasources/authDatasource";
 import Auth from "../../domain/entities/auth";
-import AuthResult from "../../domain/entities/authResult";
 import LoginUserResult from "../../domain/entities/loginUserResult";
 
 class AuthDatasourceImp extends AuthDatasource {

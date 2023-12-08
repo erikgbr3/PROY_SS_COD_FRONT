@@ -9,7 +9,12 @@ import { useNavigation } from "@react-navigation/native";
 import LeagueEditScreen from "./components/modalEditLeague";
 import LeagueDeleteScreen from "./components/modalDeleteLeague";
 
-const AddLeaguesScreenView = () => {
+
+type Props = {
+  navigation: any,
+}
+
+const AddLeaguesScreenView:React.FC<Props> = ({navigation}) => {
 
   const {
     loading,
@@ -36,10 +41,11 @@ const AddLeaguesScreenView = () => {
     }
     return leagues?.map((leagueA) =>
       <LeaguesAdminCard
-        key={leagueA.id}
+        key={leagueA.id} 
         leagueA={leagueA} 
         onEdit={setLeagueSelected}
-        onDelete={setLeagueSelectedDeleted}/>
+        onDelete={setLeagueSelectedDeleted}
+        navigation={navigation}/>
     )
   }
 

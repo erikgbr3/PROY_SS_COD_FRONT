@@ -13,9 +13,9 @@ class SportFieldsDatasourceImp extends SportFieldsDatasource {
         .then((response) => {
 
             const sportField = response.map((item : any) => new SportField(
-                item.id,
                 item.ubication,
                 item.name,
+                item.id,
                 )
             );
             return new SportFieldResult(

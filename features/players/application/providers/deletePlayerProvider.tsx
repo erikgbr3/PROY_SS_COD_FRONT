@@ -2,7 +2,6 @@ import React, { ReactNode, FC, createContext, useReducer, useContext } from "rea
 import Player from "../../domain/entities/player";
 import PlayersRepositoryImp from "../../infraestructure/repositories/playersRepositoryImp";
 import PlayersDatasourceImp from "../../infraestructure/datasources/playersDataSourceImp";
-import { RESPONSE_LIMIT_DEFAULT } from "next/dist/server/api-utils";
 
 interface ContextDefinition {
   loading: boolean,

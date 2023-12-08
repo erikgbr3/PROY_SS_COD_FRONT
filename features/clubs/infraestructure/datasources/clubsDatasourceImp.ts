@@ -48,9 +48,9 @@ class ClubsDatasourceImp extends ClubsDatasource {
         })
       }
 
-    async getClubs(): Promise<ClubsResult> {
+    async getClubs(leagueId:number): Promise<ClubsResult> {
 
-        return fetch(`${BackendConfig.url}/api/clubs`)
+        return fetch(`${BackendConfig.url}/api/clubs?leagueId=${leagueId}`)
         .then((response) => response.json())
         .then((response) => {
 

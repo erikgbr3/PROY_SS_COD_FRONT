@@ -26,6 +26,10 @@ class MatchesRepositoryImp extends MatchesRepository {
         return this.datasource.getMatches(leagueId);
     }
 
+    getMatchesReferee(token: string): Promise<MatchResult> {
+        return this.datasource.getMatchesReferee(token)
+    }
+
     deleteMatch(match: Match): Promise<AddMatchResult> {
         return this.datasource.deleteMatch(match);
     }

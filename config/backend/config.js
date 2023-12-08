@@ -1,5 +1,5 @@
 const BackendConfig = {
-  url: 'http://192.168.1.74:3000',
+  url: 'https://webservice-sportservice2023-gmailcom.vercel.app',
 }
 
 export default BackendConfig;

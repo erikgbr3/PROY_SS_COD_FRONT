@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
 import MatchEditScreenAdmin from './components/matchEditScreenAdmin';
 import MatchDeleteScreen from './components/deleteMatch';
-import MatchesCardAdmin from './components/matchesCardAdmin';
+import MatchesAdminCard from './components/matchesAdminCard';
 
 type Props = {
   route: any,
@@ -48,7 +48,7 @@ const MatchesScreenAdminView: React.FC<Props> = ({route, navigation}) => {
       return (
         <View key={`match-${match.id}`}>
           {showDate && <Text style={styles.dateText}>{match.date}</Text>}
-          <MatchesCardAdmin
+          <MatchesAdminCard
             key={match.id}
             match={match} 
             onEdit={setMatchSelected} 

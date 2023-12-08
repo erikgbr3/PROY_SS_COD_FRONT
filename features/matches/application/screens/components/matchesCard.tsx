@@ -1,43 +1,40 @@
 import React, { FC, useState } from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity, Modal} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, Modal } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import Match from "../../../domain/entities/match";
 
 type CardProps = {
-    match: Match,
+    match: Match
 }
 
-const MatchesCard: FC<CardProps> = ({match}) => {
-
-
+const MatchesCard: FC<CardProps> = ({ match }) => {
     return (
-            <View style={styles.container}>
-                    <View style={styles.card}>
-                        <View style={styles.cardData}>
-                            <View style={styles.data}>
-                                <Text style={styles.nameClub}>{match.homeTeamName}</Text>
-                            </View>
-                            <View> 
-                                    <Text style={styles.scoreText}>{match.scoreHome}</Text>
-                            </View>
-                        </View>
-                        
-                        <View style={styles.cardData}>
-                            <View>
-                                <Text style={styles.nameClub}>{match.visitorTeamName}</Text>
-                            </View>
-                            
-                            <View> 
-                                    <Text style={styles.scoreText}>{match.scoreVisitor}</Text>
-                            </View>
-                        </View>
-                        
-                        <View style={styles.cardData}>
-                        <Text style={styles.referee}>{match.refereeId}</Text>  
-                        </View>    
+        <View style={[styles.card]}>
+            <View style={{ flexDirection: 'row' }}>
+                <View style={styles.cardData}>
+                    <View style={styles.data}>
+                        <Text style={styles.nameClub}>{match.homeTeamName}</Text>
                     </View>
+                    <View>
+                        <Text style={styles.scoreText}>{match.scoreHome}</Text>
+                    </View>
+                </View>
+                <View style={{ width: '10%', justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 15, color: '#074dc6', fontWeight: '500' }}>VS</Text>
+                </View>
+                <View style={styles.cardData}>
+                    <View>
+                        <Text style={styles.nameClub}>{match.visitorTeamName}</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.scoreText}>{match.scoreVisitor}</Text>
+                    </View>
+                </View>
             </View>
-        
+            <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', margin:10}}>
+                <Text style={{ fontSize: 16 }}>{match.hour}</Text>
+            </View>
+        </View>
     );
 }
 
@@ -52,24 +49,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     card: {
-      backgroundColor: "#FFFFFF",
-      padding: 1,
-      borderRadius: 30,
-      borderStyle: 'solid', 
-      borderWidth:.5,
-      borderColor:'black',
-      width: 380,
-      height:'auto',
-      overflow: "hidden",
-      margin: 5,
+        backgroundColor: "#FFFFFF",
+        padding: 1,
+        borderRadius: 10,
+        width: 320,
+        height: 'auto',
+        overflow: "hidden",
+        margin: 5,
+        shadowColor: '#0d47a1',
+        shadowOffset: { width: 0, height: 30 },
+        shadowOpacity: 10,
+        shadowRadius: 5,
+        elevation: 10,
     },
-    cardData:{
+    cardData: {
         backgroundColor: '#FFFFFF',
         alignContent: 'center',
         alignItems: 'center',
         shadowColor: 'grey',
+        width: '45%'
     },
-    data:{
+    data: {
         backgroundColor: '#FFFFFF',
         alignContent: 'center',
         alignItems: 'center',
@@ -80,16 +80,16 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontWeight: '500',
         fontSize: 20,
-        color: 'grey',
+        color: '#0d47a1',
         marginLeft: 8,
         marginRight: 5,
     },
     scoreText: {
         marginTop: 5,
         marginBottom: 5,
-        fontWeight: '500',
+        fontWeight: 'bold',
         fontSize: 30,
-        color: 'grey',
+        color: '#074dc6',
         marginRight: 5,
     },
     referee: {
@@ -100,25 +100,5 @@ const styles = StyleSheet.create({
         color: 'grey',
         marginLeft: 5,
         marginRight: 8,
-    },
-    
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, .5)',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 10,
-    alignItems: 'center',
-    elevation: 10,
-    width: '100%',
-  },
-  modalOption: {
-    fontSize: 18,
-    marginBottom: 5,
-  },
+    }
 });

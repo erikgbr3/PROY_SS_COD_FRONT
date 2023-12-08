@@ -50,7 +50,7 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
           {showDate && <Text style={styles.dateText}>{match.date}</Text>}
           <MatchesCard
             key={match.id}
-            match={match}
+            match={match} 
           />
         </View>
       );
@@ -72,9 +72,11 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
 
   return (
       <View style={styles.container}>
-      <Text style={styles.title}>Partidos</Text>
+       <View style={styles.header}>
+        <Text style={styles.title}>Partidos</Text>
+      </View>
       <ScrollView>
-            <View style={styles.card}>{renderCards()}</View>       
+        {renderCards()}    
       </ScrollView> 
 
       {!!matchSelected ? (
@@ -128,21 +130,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    paddingTop: 10,
-    fontWeight: '500',
-    fontSize: 32,
-    color: 'black',
+    fontSize: 28,
+    fontWeight: '800',
+    textAlign: 'center',
+    paddingLeft: 2,
+    color: '#0d47a1'
   },
   dateText: {
     marginTop: 10,
     marginBottom: 10,
+    marginLeft: 20,
     fontWeight: '500',
     fontSize: 20,
     color: 'black',
     marginRight: 5,
-    textAlign: 'center',
+    textAlign: 'left',
   },
-  card: {
-    borderRadius: 10,
-  },
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });

@@ -101,6 +101,36 @@ class MatchesDatasourceImp extends MatchesDatasource {
         return result;
       })
     }
+
+
+   async getMatchesReferee(token: string): Promise<MatchResult> {
+      const clubsResult = await this.getClubs();
+      const clubsMap = new Map(clubsResult.club.map((club) => [club.id, club]));
+      return fetch(`${BackendConfig.url}/api/matches`,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token
+        }
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        const matches: Array<any> = Object.values(response).reduce((acc: Array<any>, matchesArray) => acc.concat(matchesArray), []);
+    
+          const formattedMatches = matches.map((item: any) => new Match(
+            item.homeTeamId,
+            item.visitorTeamId,
+            item.date,
+            item.hour,
+            item.refereeId,
+            item.homeTeamName = item.homeTeamId && clubsMap.get(item.homeTeamId)?.name,
+            item.visitorTeamName = item.visitorTeamId && clubsMap.get(item.visitorTeamId)?.name,
+            item.id,
+            item.scoreHome,
+            item.scoreVisitor,
+          ));
+          return new MatchResult(formattedMatches);
+      })
+    }
     
     
 } 
