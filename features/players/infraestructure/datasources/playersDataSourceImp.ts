@@ -26,15 +26,15 @@ class PlayersDatasourceImp extends PlayersDatasource{
       });
   }
 
-  async getPlayers(): Promise<PlayerResult> {
-    return fetch(`${BackendConfig.url}/api/players`)
+  async getPlayers(clubId:number): Promise<PlayerResult> {
+    return fetch(`${BackendConfig.url}/api/players?clubId=${clubId}`)
     .then((response) => response.json())
     .then((response) => {
       const players = response.map((item:any) => new Player(
         item.name,
         item.lastname,
-        item.numberjersey,
         item.age,
+        item.numberjersey,
         item.position,
         item.cellphone,
         item.curp,

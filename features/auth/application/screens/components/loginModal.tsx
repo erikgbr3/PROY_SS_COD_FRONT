@@ -41,8 +41,8 @@ const LoginModal: React.FC<Props> = ({ navigation }) => {
         navigation.replace('Home Club Manager' as never);
         resetForm()
       }else{
-        //navigation.navigate('Home Referi' as never);
-        //resetForm()
+        navigation.replace('Home Referee' as never);
+        resetForm()
       }
     }
     if (error) {

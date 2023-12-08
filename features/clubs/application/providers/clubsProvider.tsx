@@ -12,7 +12,7 @@ interface ContextDefinition{
     loading:  boolean,
     clubs:Club[],
 
-    getClubs:()=>void;
+    getClubs:(leagueId:number)=>void;
 }
 
 const clubsContext = createContext ( {} as ContextDefinition);
@@ -64,7 +64,7 @@ const ClubsProvider:FC<Props> = ({ children }) => {
 
     //acciones
 
-    const getClubs = async () => {
+    const getClubs = async (leagueId:number) => {
         const reposirtory = new ClubsRepositoryImp(
             new ClubsDatasourceImp()
         );
@@ -76,7 +76,7 @@ const ClubsProvider:FC<Props> = ({ children }) => {
             payload: true,
         })
 
-        const apiResult = await reposirtory.getClubs();
+        const apiResult = await reposirtory.getClubs(leagueId);
 
         dispatch({
             type: 'Set Data',

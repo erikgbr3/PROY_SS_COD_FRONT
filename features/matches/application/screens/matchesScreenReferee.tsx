@@ -1,38 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { MatchesProvider, useMatchesState } from '../providers/matchesProvider';
-import MatchesCard from './components/matchesCard';
-import { MaterialIcons } from '@expo/vector-icons';
-import { SafeAreaView } from 'react-native';
-import MatchEditScreen from './components/matchEditScreen';
-import MatchDeleteScreen from './components/deleteMatch';
+import MatchEditScreenReferee from './components/matchEditScreenReferee';
+import MatchesCardReferee from './components/matchesCardReferee';
+import { MatchesRefereeProvider, useMatchesRefereeState } from '../providers/matchesRefereeProvider';
 
 type Props = {
   route: any,
   navigation: any
 }
 
-const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
-
-  let leagueName = "Liga de Futbol";
-  
-  if (route.params?.leagueName) {
-    leagueName = route.params.leagueName;
-  }
+const MatchesScreenRefereeView: React.FC<Props> = ({route, navigation}) => {
 
    const {
     loading,
     matches,
-    matchSelected,
-    matchSelectedDeleted, 
+    matchSelected, 
 
     getMatches,
     setMatchSelected,
-    setMatchSelectedDeleted,
     onUpdatedMatch,
-    onDeleteMatch,
-   } = useMatchesState(); 
+   } = useMatchesRefereeState(); 
 
    const renderCards = () => {
     if (!matches || matches.length === 0) {
@@ -48,9 +36,10 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
       return (
         <View key={`match-${match.id}`}>
           {showDate && <Text style={styles.dateText}>{match.date}</Text>}
-          <MatchesCard
+          <MatchesCardReferee
             key={match.id}
             match={match} 
+            onEdit={setMatchSelected}
           />
         </View>
       );
@@ -58,13 +47,13 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
   };
 
    useEffect(() => {
-    getMatches(route.params.leagueId);
+    getMatches();
    }, []);
 
    if(loading) {
     return(
       <ScrollView>
-        <Text>Cargando...</Text>
+        <Text>Cargando...</Text> 
       </ScrollView>
     ) 
    }
@@ -72,43 +61,32 @@ const MatchesScreenView: React.FC<Props> = ({route, navigation}) => {
 
   return (
       <View style={styles.container}>
-       <View style={styles.header}>
-        <Text style={styles.title}>Partidos</Text>
-      </View>
+      <Text style={styles.title}>Partidos</Text>
       <ScrollView>
-        {renderCards()}    
+            <View style={styles.card}>{renderCards()}</View>       
       </ScrollView> 
 
       {!!matchSelected ? (
-          <MatchEditScreen
+          <MatchEditScreenReferee
             matchEdit={matchSelected}
             menuVisible={!!matchSelected}
             onSaved={onUpdatedMatch}
             onCancelEdit={setMatchSelected}
           />
-
-      ): null}
-      {!!matchSelectedDeleted ? (
-        <MatchDeleteScreen
-        matchDelete={matchSelectedDeleted}
-        menuVisible={!!matchSelectedDeleted}
-        onDeleted={onDeleteMatch}
-        onCancelDelete={setMatchSelectedDeleted}
-      />
       ): null}
     </View>
   );
 }
 
-const MatchesScreen = (props : any) => {
+const MatchesScreenReferee = (props : any) => {
   return(
-  <MatchesProvider>
-    <MatchesScreenView {...props}/>
-  </MatchesProvider>
+  <MatchesRefereeProvider>
+    <MatchesScreenRefereeView {...props}/>
+  </MatchesRefereeProvider>
   )
 }
 
-export default MatchesScreen;
+export default MatchesScreenReferee;
 
 const styles = StyleSheet.create({
   container: {
@@ -130,24 +108,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 28,
-    fontWeight: '800',
-    textAlign: 'center',
-    paddingLeft: 2,
-    color: '#0d47a1'
+    paddingTop: 10,
+    fontWeight: '500',
+    fontSize: 32,
+    color: 'black',
   },
   dateText: {
     marginTop: 10,
     marginBottom: 10,
-    marginLeft: 20,
     fontWeight: '500',
     fontSize: 20,
     color: 'black',
     marginRight: 5,
-    textAlign: 'left',
+    textAlign: 'center',
   },
-  header: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+  card: {
+    borderRadius: 10,
+  },
 });

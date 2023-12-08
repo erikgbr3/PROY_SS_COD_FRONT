@@ -17,8 +17,8 @@ class PlayersRepositoryImp extends PlayersRepository{
     return this.datasource.addPlayer(player);
   }
 
-  getPlayers():Promise<PlayerResult>{
-    return this.datasource.getPlayers();
+  getPlayers(clubId:number):Promise<PlayerResult>{
+    return this.datasource.getPlayers(clubId);
   }
 }
 export default PlayersRepositoryImp;

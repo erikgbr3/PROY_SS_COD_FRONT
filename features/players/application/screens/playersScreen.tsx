@@ -5,9 +5,10 @@ import { PlayersProvider, usePlayersState } from '../providers/playersProvider';
 import PlayersCard from './components/playersCard';
 
 type Props = {
+  route:any,
   navigation: any;
 }
-const PlayersScreenView:FC<Props> = ({navigation}) => {
+const PlayersScreenView:FC<Props> = ({route,navigation}) => {
 
   const {
     loading,
@@ -24,12 +25,13 @@ const PlayersScreenView:FC<Props> = ({navigation}) => {
     {
       return null;
     }
-    return players?.map((player) => (<PlayersCard key={`player${player.id}`} player={player} />
+    return players?.map((player) => (
+        <PlayersCard key={player.id} player={player} />
     ));
   }
 
   useEffect(() => {
-    getPlayers();
+    getPlayers(route.params.clubId);
   }, []);
 
   const newPlayer = () => {
@@ -38,18 +40,13 @@ const PlayersScreenView:FC<Props> = ({navigation}) => {
 
     return (
     <View style={styles.container}>
-        <View style={styles.nav}>
-            <Text style={styles.text}>Jugadores</Text>
+        <View style={styles.header}>
+            <Text style={styles.title}>Listado de Jugadores</Text>
         </View>
-        <View>
-          <TouchableOpacity
-          style={styles.button}
-          onPress={newPlayer}>
-            <Text style={styles.buttonText}>Nuevo Jugador</Text>
-            </TouchableOpacity>
-        </View>
-        <ScrollView style={styles.card}>
+        <ScrollView>
+        <View style = {{flexDirection: 'row', flexWrap: 'wrap'}}>
           {renderCards()}
+        </View>
         </ScrollView>
       
     </View>
@@ -70,6 +67,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: '100%',
   },
+  title: {
+    fontSize: 28,
+    fontWeight: '800',
+    textAlign: 'center',
+    paddingLeft: 2,
+    color: '#0d47a1'
+  },
+  header: {   
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   nav:{
     backgroundColor: '#003c8f',
     height:90,
@@ -87,9 +95,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#fff',
     textAlign: 'center'
-  },
-  card: {
-    marginTop: 35
   },
   text:{
     marginTop: 40, 

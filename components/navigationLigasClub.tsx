@@ -5,6 +5,13 @@ import { Entypo } from '@expo/vector-icons';
 import PositionsScreen from '../features/tablepositions/application/screens/positionScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ClubsScreen from '../features/clubs/application/screens/clubsScreen';
+import SuscriptionScreen from '../features/suscriptions/application/screens/suscriptionsScreen';
+import PlayersScreen from '../features/players/application/screens/playersScreen';
+import PlayerNavigation from '../features/players/application/screens/components/navigationPlayer';
+import AddPlayerScreen from '../features/players/application/screens/components/AddPlayersScreen';
+import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import PlayersAdminScreen from '../features/players/application/screens/AddPlayersScreen';
 
 
 type Props = {
@@ -13,7 +20,7 @@ type Props = {
 }
 const Tab = createBottomTabNavigator();
 
-const NavigationLeagueAdmin: React.FC<Props> = ({ route, navigation }) => {
+const NavigationLigasClub: React.FC<Props> = ({ route, navigation }) => {
 
   return (
 
@@ -25,42 +32,31 @@ const NavigationLeagueAdmin: React.FC<Props> = ({ route, navigation }) => {
       }}
     >
       <Tab.Screen
-        name="Matches"
+        name="Jugadores"
         initialParams={{ ...route.params }}
-        component={MatchesScreenAdmin}
+        component={PlayersAdminScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="soccer-field" size={24} color={color} />
+            <FontAwesome name="group" size={24} color={color} />
           ),
-          tabBarLabel: 'Partidos'
+          tabBarLabel: 'Jugadores'
         }}
       />
       <Tab.Screen
-        name='Equipos Liga'
+        name="AddPlayer"
         initialParams={{ ...route.params }}
-        component={ClubsScreen}
+        component={AddPlayerScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="sports-club" size={24} color={color}/>
-          ),
-          tabBarLabel: 'Equipos',
-        }} />
-      <Tab.Screen
-        name='Posiciones'
-        initialParams={{ ...route.params }}
-        component={PositionsScreen}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Entypo name="list" size={24} color={color} />
-          ),
-          tabBarLabel: 'Tabla de Posiciones'
+            <AntDesign name="adduser" size={24} color={color} />
+            ),
+          tabBarLabel: 'Jugadores'
         }}
       />
     </Tab.Navigator>
   );
 }
 
-export default NavigationLeagueAdmin
+export default NavigationLigasClub

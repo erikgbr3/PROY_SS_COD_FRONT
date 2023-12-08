@@ -1,4 +1,4 @@
-import { FC, ReactNode, createContext, useContext, useReducer } from "react";
+import React,{ FC, ReactNode, createContext, useContext, useReducer } from "react";
 import Player from "../../domain/entities/player";
 import PlayerResult from "../../domain/entities/playerResult";
 import PlayersRepositoryImp from "../../infraestructure/repositories/playersRepositoryImp";
@@ -9,7 +9,7 @@ interface ContextDefinition {
     players: Player[];
     playerSelected: Player | null;
 
-    getPlayers: () => void;
+    getPlayers: (clubId:number) => void;
     setPlayerSelected: (player: Player | null) => void;
 }
 
@@ -65,7 +65,7 @@ type Props = {
 const PlayersProvider : FC<Props> = ({children}) => {
     const [state, dispatch] = useReducer( PlayersReducer, InitialState );
 
-    const getPlayers = async () => {
+    const getPlayers = async (clubId:number) => {
         const repository = new PlayersRepositoryImp(
             new PlayersDatasourceImp()
         );
@@ -75,7 +75,7 @@ const PlayersProvider : FC<Props> = ({children}) => {
             payload: true,
         })
 
-        const apiResult = await repository.getPlayers();
+        const apiResult = await repository.getPlayers(clubId);
 
         dispatch({
             type: 'Set Data',

@@ -10,7 +10,7 @@ interface ContextDefinition {
     suscriptionSelected: Suscription | null;
     suscriptionSelectedDelete: Suscription | null;
 
-    getSuscriptions: () => void;
+    getSuscriptions: (clubId:number) => void;
     setSuscriptionSelected: (suscription: Suscription | null) => void;
     setSuscriptionDelected: (suscription: Suscription | null) => void;
     onUpdatedSuscription: (suscription: Suscription) => void;
@@ -78,7 +78,7 @@ const SuscriptionsProvider: FC<Props> = ({ children }) => {
     const [state, dispatch] = useReducer(suscriptionsReducer, initialState);
 
     //acciones
-    const getSuscriptions = async () => {
+    const getSuscriptions = async (clubId:number) => {
         const repository = new SuscriptionRepositoryImp(
             new SuscriptionDatasourceImp()
         );
@@ -90,7 +90,8 @@ const SuscriptionsProvider: FC<Props> = ({ children }) => {
         });
 
         //llamar al repositorio  y obtener el resultado
-        const apiResult = await repository.getSuscriptions();
+        const apiResult = await repository.getSuscriptions(clubId);
+        console.log("obtener sus", apiResult);
 
         //mandar a establecer los datos en el estado
         dispatch({

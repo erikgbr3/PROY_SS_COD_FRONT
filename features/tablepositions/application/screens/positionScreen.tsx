@@ -17,15 +17,6 @@ const PositionsScreenView: React.FC<Props> = ({ route, navigation }) => {
 
   } = usePositionsState();
 
-  // const renderTable = () => {
-  //   if (positions == null) {
-  //     return null;
-  //   }
-  //   return positions?.map((position) =>
-  //       <PositionTable key={position.id} position={position}/>
-  //   )
-  // }
-
   useEffect(() => {
     getPositions(route.params.leagueId);
   }, [])
@@ -63,7 +54,7 @@ const PositionsScreenView: React.FC<Props> = ({ route, navigation }) => {
           {positions.map((position) => (
             <View key={position.id} style={styles.row}>
               <View style={[styles.row, { width: '30%' }]}>
-                <Text style={[styles.cell, { fontWeight: 'bold' }]}>{position.clubName}</Text>
+                <Text style={[styles.cell, { fontWeight: 'bold', textAlign:'left', paddingLeft:10 }]}>{position.clubName}</Text>
               </View>
               <View style={[styles.row, { width: '10%' }]}>
                 <Text style={[styles.cell, { fontSize: 12 }]}>{position.matchesWon}</Text>
